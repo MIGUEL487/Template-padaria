@@ -3,6 +3,8 @@ Fotografias reais com enquadramentos editoriais, sem simular transparência. Em 
 
 Movimentos implementados: kenburns, float, spin no medalhão de pão visto de cima e drift nos produtos. Sombras permanecem nos wrappers; os loops animam somente transform. IntersectionObserver pausa os loops fora da viewport. O controle de animações e a preferência de movimento reduzido param os loops; o hero usa somente um poster nesse modo.
 
-Canvas escolhe apenas PC ou celular conforme orientação/largura. Lê a lista real de manifest.json, pré-decodifica ImageBitmaps em três workers, 1280×852 PC e 540×960 mobile, libera os bitmaps no cleanup. ResizeObserver calcula cover e resolução preservando o aspecto da viewport e sem multiplicação por DPR. Crossfade entre quadros vizinhos via globalAlpha, coalescido em requestAnimationFrame. Não há medições de layout nem atualizações de estado React no hot path.
+Canvas escolhe apenas PC ou celular conforme orientação/largura. Lê a lista real de manifest.json, decodifica até três ImageBitmaps simultâneos com cache de janela (até 33 PC ou 25 mobile), 960×640 PC e 540×960 mobile, libera os bitmaps descartados e no cleanup. ResizeObserver calcula cover e resolução preservando o aspecto da viewport e sem multiplicação por DPR. Crossfade entre quadros vizinhos via globalAlpha, coalescido em requestAnimationFrame. Não há medições de layout nem atualizações de estado React no hot path.
 
 Abertura: imagem e texto, sem botões ou cabeçalho. Scrub de 160svh dentro de uma área de 280svh; os últimos 20svh da retenção conservam o último quadro. O menu só aparece 24px após começar a saída da cena. Imagem e texto sobem juntos na saída; painel creme com borda curva entra sem faixa de degradê. As demais seções compartilham fundo creme e painéis bege/fotográficos arredondados.
+
+Atualização de fontes: 240 quadros PC e 150 mobile. Origem, recorte medido e importador registrados em frame-update.md.

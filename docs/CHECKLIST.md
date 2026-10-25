@@ -14,4 +14,6 @@ Simplificações em relação ao documento de referência:
 
 ## Refinamento após revisão visual
 
-Hero sem navegação e sem botões, cena retida até o quadro final; cabeçalho flutuante aparece somente na saída. Validado em 390/768/1440: todos os 30 índices desenhados em rolagem lenta, quadro final antes da liberação do sticky, menu inacessível ao teclado enquanto oculto, reaparece ao descer e some ao voltar. Filtros, modal e preferência de movimento reduzido validados. Evidência: refinement-results.json e scripts/verify-refinements.cjs.
+Hero sem navegação e sem botões, cena retida até o quadro final; cabeçalho flutuante aparece somente na saída. Validado em 390/768/1440: todos os 30 índices do lote anterior desenhados em rolagem lenta, quadro final antes da liberação do sticky, menu inacessível ao teclado enquanto oculto, reaparece ao descer e some ao voltar. Filtros, modal e preferência de movimento reduzido validados. Evidência: refinement-results.json e scripts/verify-refinements.cjs.
+
+Sequências atualizadas: 240 PC / 150 mobile, carregamento por janela e manifesto dinâmico. Ver frame-update.md para inspeção e importação.

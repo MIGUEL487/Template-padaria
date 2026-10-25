@@ -65,7 +65,9 @@ function Hero({ reduced }: { reduced: boolean }) {
       lastPosition = -1;
     let frames: (ImageBitmap | undefined)[] = [],
       sourceWidth = 1280,
-      sourceHeight = 852;
+      sourceHeight = 720;
+    let frameCount = 1;
+    let ensureFrames = () => {};
     let cover = { x: 0, y: 0, width: 0, height: 0 };
     const playhead = { progress: 0 };
     function measure() {
@@ -86,14 +88,17 @@ function Hero({ reduced }: { reduced: boolean }) {
     }
     function draw() {
       raf = 0;
-      const position = playhead.progress * 29;
+      const finalIndex = frameCount - 1;
+      const position = playhead.progress * finalIndex;
+      ensureFrames();
       // A coalescência nunca pode descartar os extremos da sequência.
       if (
         Math.abs(position - lastPosition) < 0.02 &&
-        !(position === 29 && lastPosition !== 29) &&
+        !(position === finalIndex && lastPosition !== finalIndex) &&
         !(position === 0 && lastPosition !== 0)
-      ) return;
-      const requested = Math.min(29, Math.floor(position));
+      )
+        return;
+      const requested = Math.min(finalIndex, Math.floor(position));
       let index = requested;
       if (!frames[index]) {
         index = frames.reduce(
@@ -128,7 +133,9 @@ function Hero({ reduced }: { reduced: boolean }) {
       frames = [];
       const mobile = media.matches;
       sourceWidth = mobile ? 540 : 1280;
-      sourceHeight = mobile ? 960 : 852;
+      sourceHeight = mobile ? 960 : 720;
+      frameCount = 1;
+      ensureFrames = () => {};
       measure();
       try {
         const base = `/frames/${mobile ? "mobile" : "pc"}/`;
@@ -137,36 +144,95 @@ function Hero({ reduced }: { reduced: boolean }) {
         const manifest = (await response.json()) as {
           frames: string[];
           bottomColor: string;
+          width: number;
+          height: number;
+          revision?: string;
         };
         if (disposed || gen !== generation) return;
         area.current?.style.setProperty("--hero-bottom", manifest.bottomColor);
         const names = reduced ? manifest.frames.slice(0, 1) : manifest.frames;
-        let cursor = 0;
-        async function worker() {
-          while (cursor < names.length) {
-            const i = cursor++;
-            try {
-              const response = await fetch(base + names[i]);
-              if (!response.ok) throw new Error("Frame indisponível");
-              const bitmap = await createImageBitmap(await response.blob(), {
-                resizeWidth: sourceWidth,
-                resizeHeight: sourceHeight,
-                resizeQuality: "high",
-              });
-              if (disposed || gen !== generation) {
-                bitmap.close();
-                return;
-              }
-              frames[i] = bitmap;
-              lastPosition = -1;
-              schedule();
-            } catch (error) {
-              if (!disposed)
-                console.warn("Não foi possível carregar um frame", error);
+        frameCount = names.length;
+        sourceWidth = Math.min(mobile ? 540 : 1280, manifest.width);
+        sourceHeight = Math.round(
+          (manifest.height * sourceWidth) / manifest.width,
+        );
+        c.dataset.frameCount = String(frameCount);
+        measure();
+        const radius = reduced ? 0 : mobile ? 12 : 16;
+        const pending = new Set<number>(),
+          failed = new Set<number>();
+        let active = 0;
+        // Janela limitada: cada bitmap descartado é explicitamente liberado.
+        ensureFrames = () => {
+          if (disposed || gen !== generation) return;
+          const target = Math.min(
+            frameCount - 1,
+            Math.floor(playhead.progress * (frameCount - 1)),
+          );
+          frames.forEach((bitmap, i) => {
+            if (bitmap && Math.abs(i - target) > radius) {
+              bitmap.close();
+              frames[i] = undefined;
             }
+          });
+          const candidates = Array.from(
+            {
+              length:
+                Math.min(frameCount - 1, target + radius) -
+                Math.max(0, target - radius) +
+                1,
+            },
+            (_, i) => Math.max(0, target - radius) + i,
+          ).sort((a, b) => Math.abs(a - target) - Math.abs(b - target));
+          while (active < 3) {
+            const i = candidates.find(
+              (i) => !frames[i] && !pending.has(i) && !failed.has(i),
+            );
+            if (i === undefined) break;
+            pending.add(i);
+            active++;
+            (async () => {
+              try {
+                const response = await fetch(
+                  base +
+                    names[i] +
+                    (manifest.revision ? `?v=${manifest.revision}` : ""),
+                );
+                if (!response.ok) throw new Error("Frame indisponível");
+                const blob = await response.blob();
+                const bitmap = manifest.width === sourceWidth && manifest.height === sourceHeight
+                  ? await createImageBitmap(blob)
+                  : await createImageBitmap(blob, {
+                      resizeWidth: sourceWidth,
+                      resizeHeight: sourceHeight,
+                      resizeQuality: "high",
+                    });
+                const latest = Math.floor(playhead.progress * (frameCount - 1));
+                if (
+                  disposed ||
+                  gen !== generation ||
+                  Math.abs(i - latest) > radius
+                ) {
+                  bitmap.close();
+                  return;
+                }
+                frames[i] = bitmap;
+                lastPosition = -1;
+                schedule();
+                c.dataset.cachedFrames = String(frames.filter(Boolean).length);
+              } catch (error) {
+                failed.add(i);
+                if (!disposed && gen === generation)
+                  console.warn("Não foi possível carregar um frame", error);
+              } finally {
+                pending.delete(i);
+                active--;
+                if (!disposed && gen === generation) ensureFrames();
+              }
+            })();
           }
-        }
-        await Promise.all([worker(), worker(), worker()]);
+        };
+        ensureFrames();
       } catch (error) {
         console.warn("Sequência de imagens indisponível", error);
       }
@@ -216,8 +282,8 @@ function Hero({ reduced }: { reduced: boolean }) {
           <img
             src="/frames/pc/frame_001.webp"
             alt="Mãos preparando um pão artesanal"
-            width="1600"
-            height="1064"
+            width="960"
+            height="640"
             fetchPriority="high"
           />
         </picture>

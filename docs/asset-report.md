@@ -1,3 +1,7 @@
+# Inventário original (histórico)
+
+> As sequências abaixo foram substituídas. Inventário atual e recorte: [frame-update.md](frame-update.md), 240 frames PC e 150 mobile. Fotografias continuam iguais.
+
 # Materiais inspecionados
 Fonte adicional: Padarias-reduzido.zip, extraído fora do checkout. O arquivo já contém imagens reduzidas; não contém fontes.
 
