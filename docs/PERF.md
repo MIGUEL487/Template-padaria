@@ -1,23 +1,24 @@
-# Validação no preview de produção
-Chromium local, Playwright, Linux headless. Resultados completos em perf-results.json. O script usa wheel real e amostra requestAnimationFrame. Resultados são desta máquina, não de dispositivos físicos.
+# Performance — abertura revisada
 
-Matriz: 390/1440 px, DPR 1/2 e CPU normal/4× limitada. Mediana inicial 16,7 ms em todos os cenários. Na primeira execução, p95 normal 16,7–33,4 ms, com um pico desktop de 66,6 ms. Sob CPU 4× houve picos acima de 50 ms: a meta rígida do briefing NÃO foi cumprida. Foi removida uma mutação de estilo por tick; resultados finais no JSON.
+Medição no preview de produção com Chromium local headless, Playwright, DPR 1/2, viewport 390×900 e 1440×900 e CPU normal/4× limitada. Wheel real em passos de 24px, 50 passos. Resultados desta máquina; não equivalem a teste de dispositivo físico ou garantia de FPS.
 
-Sem render React explícito no callback de scroll; não medido pelo React Profiler. Canvas 390×900 ou 1280×900, sem escala por DPR. Sem overflow horizontal nos cenários testados. Não confundir intervalo rAF de navegador headless com garantia de FPS em iPhone/Android real.
-
-Teste funcional em 390/768/1440 com/sem redução: filtros, abertura e Escape no diálogo, persistência do movimento e scrub com troca de frames. Zero pageerrors e zero overflow. Resultados em browser-results.json. Capturas foram feitas após rolagem, inspecionadas em desktop e celular; não foi concluída matriz visual de cada seção em todos os tamanhos.
-
-Reexecutar com Playwright disponível: `node scripts/smoke.cjs` e `node scripts/perf-hero.cjs`. CHROMIUM_PATH pode apontar outro executável no teste de performance.
-
-## Última execução
+Na execução atual: mediana de 16,7 ms em toda a matriz, p95 máximo de 33,3 ms e nenhum intervalo rAF acima de 50 ms. Canvas limitado ao tamanho útil e independente de DPR. Pré-decodificação com ImageBitmap, geometria cover cacheada e crossfade de dois frames; sem estado React ou layout por tick de scroll. O React Profiler não foi executado.
 
 | Largura | DPR | CPU | Mediana ms | p95 ms | Máximo ms | >50 ms |
 |---|---|---|---|---|---|---|
-| 390 | 1 | 1× | 16.7 | 16.7 | 33.3 | 0 |
-| 390 | 1 | 4× | 16.7 | 50.0 | 66.7 | 3 |
-| 390 | 2 | 1× | 16.7 | 16.8 | 16.8 | 0 |
-| 390 | 2 | 4× | 16.7 | 83.3 | 166.7 | 11 |
+| 390 | 1 | 1× | 16.7 | 16.8 | 16.8 | 0 |
+| 390 | 1 | 4× | 16.7 | 16.8 | 16.8 | 0 |
+| 390 | 2 | 1× | 16.7 | 16.7 | 16.8 | 0 |
+| 390 | 2 | 4× | 16.7 | 33.3 | 33.4 | 0 |
 | 1440 | 1 | 1× | 16.7 | 16.8 | 16.8 | 0 |
-| 1440 | 1 | 4× | 16.7 | 100.0 | 233.3 | 29 |
-| 1440 | 2 | 1× | 16.7 | 16.7 | 16.8 | 0 |
-| 1440 | 2 | 4× | 16.7 | 100.0 | 100.1 | 29 |
+| 1440 | 1 | 4× | 16.7 | 16.7 | 16.8 | 0 |
+| 1440 | 2 | 1× | 16.7 | 16.8 | 16.8 | 0 |
+| 1440 | 2 | 4× | 16.7 | 16.7 | 16.8 | 0 |
+
+## Testes funcionais
+
+`refinement-results.json`: em 390/768/1440, todos os 30 quadros renderizados em rolagem lenta, hero preso até o último quadro, menu oculto/inert durante a sequência e visível na saída, retorno ao topo oculta a navegação. Filtros e modal funcionais, nenhum erro JS nem overflow horizontal. Movimento reduzido conserva o poster e interrompe os loops.
+
+Capturas de abertura, junção, história e experiência foram feitas após rolagem real e inspecionadas em celular e desktop. Não realizada matriz visual completa de cada seção/dispositivo nem teste iOS físico.
+
+Reexecutar com Playwright disponível e preview em 4173: `node scripts/verify-refinements.cjs` e `node scripts/perf-hero.cjs`. `CHROMIUM_PATH` pode substituir `/usr/bin/chromium`.
