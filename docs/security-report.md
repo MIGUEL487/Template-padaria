@@ -1,0 +1,2 @@
+# Verificação de segurança
+npm audit --omit=dev: zero vulnerabilidades no momento da execução. Não há Strix instalado; revisão manual: sem secrets, sem HTML arbitrário, sem formulários ou endpoints. Mensagens de WhatsApp codificadas, número validado, links externos com noopener/noreferrer. Dados comerciais demo explícitos. Headers CSP e proteção de conteúdo configurados para Vercel; não equivalem a deployment testado. Não há mapa/iframe enquanto o endereço estiver vazio. Não realizada auditoria externa de segurança.
