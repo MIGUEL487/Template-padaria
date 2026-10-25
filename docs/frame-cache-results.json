@@ -2,27 +2,27 @@
   "checks": [
     {
       "width": 1440,
-      "total": 240,
+      "total": 239,
       "wanted": 0,
-      "cached": 17
+      "cached": 0
     },
     {
       "width": 1440,
-      "total": 240,
+      "total": 239,
       "wanted": 119,
-      "cached": 20
+      "cached": 0
     },
     {
       "width": 1440,
-      "total": 240,
-      "wanted": 239,
-      "cached": 17
+      "total": 239,
+      "wanted": 238,
+      "cached": 0
     },
     {
       "width": 1440,
-      "total": 240,
+      "total": 239,
       "wanted": 0,
-      "cached": 17
+      "cached": 0
     },
     {
       "width": 390,
@@ -40,7 +40,7 @@
       "width": 390,
       "total": 150,
       "wanted": 149,
-      "cached": 13
+      "cached": 14
     },
     {
       "width": 390,
@@ -50,27 +50,27 @@
     },
     {
       "width": 1440,
-      "total": 240,
+      "total": 239,
       "wanted": 0,
-      "cached": 17
+      "cached": 0
     },
     {
       "width": 1440,
-      "total": 240,
+      "total": 239,
       "wanted": 119,
-      "cached": 33
+      "cached": 0
     },
     {
       "width": 1440,
-      "total": 240,
-      "wanted": 239,
-      "cached": 17
+      "total": 239,
+      "wanted": 238,
+      "cached": 0
     },
     {
       "width": 1440,
-      "total": 240,
+      "total": 239,
       "wanted": 0,
-      "cached": 17
+      "cached": 0
     }
   ],
   "errors": []

@@ -1615,3 +1615,13 @@ footer {
   from { transform: scale(1.08) translateY(-8px) rotate(-1deg); }
   to { transform: scale(1.08) translateY(8px) rotate(1deg); }
 }
+/* PC: fonte nativa, um único enquadramento e decoder de vídeo do navegador. */
+.hero-video {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}

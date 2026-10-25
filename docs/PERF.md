@@ -1,28 +1,26 @@
-# Performance — novas sequências
+# Performance — PC com vídeo nativo
 
-Medição no preview de produção com Chromium local headless, DPR 1/2, viewport 390×900 e 1440×900, CPU normal/4× limitada. Wheel real em 50 passos de 24px. Valores desta máquina, sem garantia de FPS em dispositivos físicos.
+Medição no preview de produção com Chromium local headless, DPR 1/2, viewport 390×900 e 1440×900, CPU normal/4× limitada. Wheel real em 50 passos de 24px. Valores desta máquina, sem garantia de FPS em dispositivos físicos ou redes reais.
 
-Os novos lotes têm 240 frames PC e 150 mobile. A memória de bitmaps é limitada por janela: 33 PC e 25 mobile, com até três decodificações simultâneas. Canvas independente de DPR e geometria cover cacheada; não há estado React ou layout por tick de scroll. Não medido no React Profiler.
+PC agora usa vídeo pausado 1080×720 de quadros independentes. Latência do seek medida separadamente em 80 eventos: mediana 15,8ms, p95 24ms, máximo 32,8ms; zero requisições individuais de imagens PC. Ver pc-video-results.json. Mobile mantém 150 WebP e janela de até 25 bitmaps. Não há estado React por tick de scroll.
 
-Mediana de 16,7 ms na matriz atual. Houve picos acima de 50 ms em alguns cenários, principalmente com CPU limitada; a meta rígida do briefing não foi cumprida em toda a matriz. Nenhum overflow horizontal. Valores completos abaixo, sem descartar picos.
+Na matriz de rAF, mediana 16,7ms em todos os cenários. Houve picos, principalmente com CPU limitada; não foi demonstrada ausência absoluta de travadas. rAF mede a agenda do navegador, não equivale diretamente à latência de decodificação nem prova que um quadro de vídeo foi apresentado a cada amostra. O campo canvas no JSON é do elemento oculto no PC e não é a resolução do vídeo; a resolução nativa foi verificada no teste específico e ffprobe.
 
 | Largura | DPR | CPU | Mediana ms | p95 ms | Máximo ms | >50 ms |
 |---|---|---|---|---|---|---|
 | 390 | 1 | 1× | 16.7 | 16.7 | 16.8 | 0 |
-| 390 | 1 | 4× | 16.7 | 50.0 | 83.3 | 6 |
-| 390 | 2 | 1× | 16.7 | 16.7 | 33.3 | 0 |
-| 390 | 2 | 4× | 16.7 | 33.3 | 33.4 | 0 |
-| 1440 | 1 | 1× | 16.7 | 16.8 | 133.3 | 2 |
-| 1440 | 1 | 4× | 16.7 | 16.8 | 50.0 | 0 |
-| 1440 | 2 | 1× | 16.7 | 16.8 | 16.8 | 0 |
-| 1440 | 2 | 4× | 16.7 | 100.1 | 583.3 | 15 |
+| 390 | 1 | 4× | 16.7 | 33.4 | 33.5 | 0 |
+| 390 | 2 | 1× | 16.7 | 16.7 | 16.8 | 0 |
+| 390 | 2 | 4× | 16.7 | 33.4 | 33.4 | 0 |
+| 1440 | 1 | 1× | 16.7 | 33.3 | 133.3 | 2 |
+| 1440 | 1 | 4× | 16.7 | 16.7 | 16.8 | 0 |
+| 1440 | 2 | 1× | 16.7 | 16.7 | 16.8 | 0 |
+| 1440 | 2 | 4× | 16.7 | 66.7 | 300.0 | 6 |
 
-## Testes funcionais
+## Testes funcionais atuais
 
-390/768/1440: scrub alcança o último frame (149 mobile, 239 PC), hero preso até concluir e menu visível somente na saída; filtros e modal funcionais, sem erros JS. Preferência de movimento reduzido respeitada. Evidência: refinement-results.json.
+390/768/1440: scrub alcança o último quadro (149 mobile, 238 PC), hero preso até concluir e menu visível somente na saída; filtros e modal funcionais, sem erros JS. Preferência de movimento reduzido respeitada. Evidência: refinement-results.json.
 
-Teste adicional após otimização final: início, meio, fim e retorno ao início, troca PC → mobile → PC, verificação da janela limitada; sem erros. Evidência: frame-cache-results.json. A integridade de todos os 390 WebP e suas dimensões foi verificada.
+Vídeo PC: início, 25%, 50%, 75%, fim, retorno e wheel real validados. Troca PC → mobile → PC sem erro. Cache limitado de mobile e início/meio/fim/retorno validados pelo teste de cache atualizado. Evidências: pc-video-results.json e frame-cache-results.json. Capturas de PC no início/meio/fim foram inspecionadas; nada disso substitui teste em hardware real.
 
-Screenshots inspecionados em celular e desktop. Não realizados testes em iOS físico ou rede móvel real. Os índices mostrados em cada rolagem dependem da velocidade: todos os frames são mantidos no manifesto, mas um gesto rápido pode avançar várias posições.
-
-Reexecutar com Playwright disponível e preview em 4173: `node scripts/verify-refinements.cjs`, `node scripts/verify-frame-cache.cjs` e `node scripts/perf-hero.cjs`.
+Reexecutar com Playwright disponível e preview em 4173: `node scripts/verify-pc-video.cjs`, `node scripts/verify-refinements.cjs`, `node scripts/verify-frame-cache.cjs` e `node scripts/perf-hero.cjs`.

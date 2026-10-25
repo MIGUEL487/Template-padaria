@@ -1,3 +1,5 @@
+> Histórico da importação anterior. O renderer de PC foi substituído: agora usa 239 quadros compatíveis em vídeo nativo, ver [pc-video-fix.md](pc-video-fix.md). Mobile continua com 150 WebP.
+
 # Atualização das sequências
 
 Fontes: PC.zip (240 JPG) e Celular.zip (150 JPG). Ambos os arquivos fornecidos têm 1080×1920. O arquivo PC contém a cena horizontal dentro de barras pretas e muda a área ocupada ao longo da sequência. Inspeção dos 240 quadros: áreas úteis verticais 599–1319 ou 240–1680. Usado recorte central comum `(0,599,1080,1319)` em todos os quadros para manter área útil 1080×720 estável e sem barras, exportada proporcionalmente em WebP 960×640. Mobile reduzido proporcionalmente para 540×960, sem recorte.

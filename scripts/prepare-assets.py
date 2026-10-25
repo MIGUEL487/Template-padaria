@@ -7,6 +7,7 @@ for p in Path('public/images').glob('*.jpg'):
   copy=im.copy();copy.thumbnail((width,10000));copy.save(p.with_name(p.stem+f'-{width}.webp'),'WEBP',quality=80)
 for group in ['pc','mobile']:
  paths=sorted(Path('public/frames',group).glob('*.webp'))
+ if not paths: continue
  colors=[]
  for p in paths:
   im=Image.open(p).convert('RGB');colors.append(ImageStat.Stat(im.crop((0,im.height-16,im.width,im.height))).mean)

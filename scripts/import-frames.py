@@ -1,11 +1,11 @@
 """Importa os ZIPs fornecidos sem extrair caminhos arbitrários.
 Uso: python3 scripts/import-frames.py PC.zip Celular.zip
-Recorte PC medido neste lote: interseção da área útil dos 240 quadros.
+PC usa o pipeline de vídeo nativo em prepare-pc-video.py; celular permanece WebP.
 """
 from PIL import Image, ImageStat
 from pathlib import Path
 from io import BytesIO
-import zipfile, json, sys, hashlib
+import zipfile, json, sys, hashlib, subprocess
 
 def convert(archive,group,size,crop=None):
     target=Path('public/frames')/group
@@ -31,5 +31,5 @@ def convert(archive,group,size,crop=None):
         print(group,manifest['count'],im.size,'bytes',sum(len(b) for _,b in prepared),flush=True)
 
 if __name__=='__main__':
-    convert(sys.argv[1],'pc',(960,640),(0,599,1080,1319))
+    subprocess.run([sys.executable,'scripts/prepare-pc-video.py',sys.argv[1]],check=True)
     convert(sys.argv[2],'mobile',(540,960))

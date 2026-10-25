@@ -54,7 +54,8 @@ function Reveal({ children }: { children: React.ReactNode }) {
 }
 function Hero({ reduced }: { reduced: boolean }) {
   const area = useRef<HTMLElement>(null),
-    canvas = useRef<HTMLCanvasElement>(null);
+    canvas = useRef<HTMLCanvasElement>(null),
+    video = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const c = canvas.current!,
       ctx = c.getContext("2d", { alpha: false })!;
@@ -68,6 +69,7 @@ function Hero({ reduced }: { reduced: boolean }) {
       sourceHeight = 720;
     let frameCount = 1;
     let ensureFrames = () => {};
+    let cleanupVideo = () => {};
     let cover = { x: 0, y: 0, width: 0, height: 0 };
     const playhead = { progress: 0 };
     function measure() {
@@ -88,6 +90,10 @@ function Hero({ reduced }: { reduced: boolean }) {
     }
     function draw() {
       raf = 0;
+      if (!media.matches) {
+        ensureFrames();
+        return;
+      }
       const finalIndex = frameCount - 1;
       const position = playhead.progress * finalIndex;
       ensureFrames();
@@ -129,6 +135,8 @@ function Hero({ reduced }: { reduced: boolean }) {
     }
     async function load() {
       const gen = ++generation;
+      cleanupVideo();
+      cleanupVideo = () => {};
       frames.forEach((frame) => frame?.close());
       frames = [];
       const mobile = media.matches;
@@ -137,6 +145,73 @@ function Hero({ reduced }: { reduced: boolean }) {
       frameCount = 1;
       ensureFrames = () => {};
       measure();
+      c.style.visibility = mobile ? "visible" : "hidden";
+      const v = video.current!;
+      v.style.display = "none";
+      if (!mobile) {
+        try {
+          const response = await fetch("/frames/pc/manifest.json");
+          if (!response.ok) throw new Error("Manifest PC indisponível");
+          const manifest = (await response.json()) as {
+            count: number;
+            fps: number;
+            video: string;
+            revision: string;
+          };
+          if (disposed || gen !== generation) return;
+          c.dataset.frameCount = String(reduced ? 1 : manifest.count);
+          c.dataset.renderer = "video";
+          c.dataset.cachedFrames = "0";
+          c.dataset.frame = "0";
+          c.dataset.progress = "0";
+          if (reduced) return;
+          const lastTime = (manifest.count - 1) / manifest.fps;
+          ensureFrames = () => {
+            if (disposed || gen !== generation || v.readyState < 2 || v.seeking)
+              return;
+            const target = playhead.progress * lastTime;
+            if (Math.abs(target - v.currentTime) >= 1 / (manifest.fps * 4))
+              v.currentTime = target;
+          };
+          const ready = () => {
+            v.style.display = "block";
+            schedule();
+          };
+          const seeked = () => {
+            if (disposed || gen !== generation) return;
+            c.dataset.frame = String(
+              Math.min(
+                manifest.count - 1,
+                Math.round(v.currentTime * manifest.fps),
+              ),
+            );
+            c.dataset.progress = String(v.currentTime / lastTime);
+            schedule();
+          };
+          const error = () =>
+            console.warn(
+              "Não foi possível carregar o vídeo PC",
+              v.error?.message,
+            );
+          v.addEventListener("loadeddata", ready);
+          v.addEventListener("seeked", seeked);
+          v.addEventListener("error", error);
+          cleanupVideo = () => {
+            v.removeEventListener("loadeddata", ready);
+            v.removeEventListener("seeked", seeked);
+            v.removeEventListener("error", error);
+            v.pause();
+            v.removeAttribute("src");
+            v.load();
+          };
+          v.src = `/frames/pc/${manifest.video}?v=${manifest.revision}`;
+          v.load();
+        } catch (error) {
+          console.warn("Sequência PC indisponível", error);
+        }
+        return;
+      }
+      c.dataset.renderer = "canvas";
       try {
         const base = `/frames/${mobile ? "mobile" : "pc"}/`;
         const response = await fetch(base + "manifest.json");
@@ -200,13 +275,15 @@ function Hero({ reduced }: { reduced: boolean }) {
                 );
                 if (!response.ok) throw new Error("Frame indisponível");
                 const blob = await response.blob();
-                const bitmap = manifest.width === sourceWidth && manifest.height === sourceHeight
-                  ? await createImageBitmap(blob)
-                  : await createImageBitmap(blob, {
-                      resizeWidth: sourceWidth,
-                      resizeHeight: sourceHeight,
-                      resizeQuality: "high",
-                    });
+                const bitmap =
+                  manifest.width === sourceWidth &&
+                  manifest.height === sourceHeight
+                    ? await createImageBitmap(blob)
+                    : await createImageBitmap(blob, {
+                        resizeWidth: sourceWidth,
+                        resizeHeight: sourceHeight,
+                        resizeQuality: "high",
+                      });
                 const latest = Math.floor(playhead.progress * (frameCount - 1));
                 if (
                   disposed ||
@@ -258,6 +335,7 @@ function Hero({ reduced }: { reduced: boolean }) {
         });
     return () => {
       disposed = true;
+      cleanupVideo();
       generation++;
       cancelAnimationFrame(raf);
       resize.disconnect();
@@ -280,14 +358,23 @@ function Hero({ reduced }: { reduced: boolean }) {
             srcSet="/frames/mobile/frame_001.webp"
           />
           <img
-            src="/frames/pc/frame_001.webp"
+            src="/frames/pc/poster.webp"
             alt="Mãos preparando um pão artesanal"
-            width="960"
-            height="640"
+            width="1080"
+            height="720"
             fetchPriority="high"
           />
         </picture>
         <canvas ref={canvas} aria-hidden="true" />
+        <video
+          ref={video}
+          className="hero-video"
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+          disablePictureInPicture
+        />
         <div className="hero-wash" />
         <div className="hero-copy">
           <span className="eyebrow">{hero.eyebrow}</span>
