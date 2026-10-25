@@ -20,6 +20,28 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)');let paused=reduce.ma
 if(!reduce.matches)document.documentElement.classList.add('js-motion');const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.1});$$('.reveal').forEach(el=>observer.observe(el));
 const scenes={croissant:['Croissant da casa','Manteiga de verdade. Mil camadas de carinho.','01 / 03'],bread:['Pão de fermentação natural','48 horas de descanso. Todo o sabor do tempo.','02 / 03'],coffee:['Um café, por favor','Brasileiro, passado na hora. Para ficar mais um pouco.','03 / 03']};let current='croissant';function setScene(name){if(current===name)return;current=name;const [title,description,index]=scenes[name];$('[data-model-name]').textContent=title;$('[data-model-description]').textContent=description;$('[data-model-index]').textContent=index;const canvas=$('#bakery-canvas');canvas.setAttribute('aria-label',title+' em três dimensões. Arraste para girar.');$('.model-fallback').src=`/assets/bakery/${name==='croissant'?'croissant':name}.svg`;scene?.setScene(name);$$('[data-scene]').forEach(b=>{const active=b.dataset.scene===name;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});if(!paused)$('.visual-caption').animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:420,easing:'cubic-bezier(.22,1,.36,1)'});}
 $$('[data-scene]').forEach(b=>{listen(b,'pointerenter',()=>{if(matchMedia('(hover: hover)').matches)setScene(b.dataset.scene)});listen(b,'click',()=>setScene(b.dataset.scene));listen(b,'focus',()=>setScene(b.dataset.scene))});
-import('./model.js').then(({mountBakeryScene})=>{scene=mountBakeryScene($('#bakery-canvas'),{isPaused:()=>paused,onReady:()=>$('[data-model-stage]').classList.add('has-webgl')});scene.setScene(current)}).catch(error=>{console.warn('A apresentação 2D está ativa:',error.message);$('#bakery-canvas').hidden=true});
+const stage=$('[data-model-stage]'), explore=$('[data-toggle-3d]');
+let loadingModel=false;
+listen(explore,'click',async()=>{
+  if(loadingModel)return;
+  const open=!stage.classList.contains('exploring-3d');
+  if(open&&!scene){
+    loadingModel=true;explore.textContent='Preparando…';explore.disabled=true;
+    try{
+      const {mountBakeryScene}=await import('./model.js');
+      scene=mountBakeryScene($('#bakery-canvas'),{isPaused:()=>paused||!stage.classList.contains('exploring-3d'),onReady:()=>stage.classList.add('has-webgl')});
+      scene.setScene(current);
+    }catch(error){
+      console.warn('O destaque fotográfico permanece ativo:',error.message);
+      explore.textContent='3D indisponível neste aparelho';explore.disabled=true;
+      loadingModel=false;return;
+    }
+    loadingModel=false;explore.disabled=false;
+  }
+  stage.classList.toggle('exploring-3d',open);
+  explore.setAttribute('aria-pressed',String(open));
+  explore.textContent=open?'Voltar à fotografia':'Explorar em 3D';
+  scene?.refresh();
+});
 listen(document,'visibilitychange',()=>document.documentElement.classList.toggle('page-hidden',document.hidden));$('[data-year]').textContent=new Date().getFullYear();
-listen(window,'pagehide',()=>{abort.abort();observer.disconnect();scene?.dispose();clearTimeout(toastTimer)},{once:true});
+listen(window,'pagehide',event=>{if(event.persisted)return;abort.abort();observer.disconnect();scene?.dispose();clearTimeout(toastTimer)});
