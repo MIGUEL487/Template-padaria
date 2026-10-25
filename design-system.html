@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cedric Grolet · Design System</title>
+    <style>
+      :root { color-scheme: dark; --ink: #101010; --bone: #efeDE8; }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; margin: 0; }
+      body { background: var(--ink); color: var(--bone); font-family: Arial, sans-serif; overflow: hidden; }
+      .catalog-nav { height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 1px solid #efede833; letter-spacing: .08em; text-transform: uppercase; font-size: 11px; }
+      .catalog-brand { color: inherit; text-decoration: none; font-size: 15px; letter-spacing: .02em; }
+      .catalog-tabs { display: flex; gap: 22px; }
+      .catalog-tabs a { color: inherit; text-decoration: none; opacity: .58; }
+      .catalog-tabs a[aria-current="page"] { opacity: 1; }
+      .overview { height: calc(100% - 64px); }
+      .overview iframe { display: block; width: 100%; height: 100%; border: 0; background: #efede8; }
+    </style>
+  </head>
+  <body>
+    <nav class="catalog-nav" aria-label="Design system views">
+      <a class="catalog-brand" href="#overview">Cedric Grolet · Design System</a>
+      <div class="catalog-tabs">
+        <a href="#overview" aria-current="page">Overview</a>
+        <a href="#components" aria-disabled="true" title="Disponível após aprovação do Overview">Components</a>
+      </div>
+    </nav>
+    <main class="overview" id="overview">
+      <iframe title="Padaria Artesanal Design System Overview" src="design-systems/cedric-grolet-home/index.html"></iframe>
+    </main>
+  </body>
+</html>

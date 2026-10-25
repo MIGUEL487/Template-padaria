@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Padaria artesanal brasileira — pão, café e encontros feitos com tempo.">
+    <title>Padaria Artesanal · Design System</title>
+    <link rel="preload" as="image" href="assets/padaria-hero.jpg">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#menu">Pular para o menu</a>
+    <main class="home" id="home">
+      <div class="hero-surface" aria-hidden="true"></div>
+      <div class="hero-grain" aria-hidden="true"></div>
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="pastry-stage" aria-hidden="true">
+        <div class="pastry-shadow"></div>
+        <div class="pastry-3d" data-model="procedural-pastry">
+          <span class="pastry-layer layer-top"></span>
+          <span class="pastry-layer layer-mid"></span>
+          <span class="pastry-layer layer-bottom"></span>
+          <span class="pastry-mark">✳</span>
+        </div>
+        <img class="pastry-2d" src="assets/padaria-center-2d.png" alt="" width="580" height="920">
+      </div>
+
+      <header class="brand-bar">
+        <button class="back-button" type="button" aria-label="Voltar">←</button>
+        <a class="wordmark" href="#home" aria-label="Padaria Artesanal — início">PADARIA <span>ARTESANAL</span></a>
+        <button class="motion-button" type="button" data-motion-toggle aria-pressed="false">Movimento <span aria-hidden="true">↗</span></button>
+      </header>
+
+      <section class="hero-copy" aria-labelledby="hero-title">
+        <p class="eyebrow">FEITO NO BRASIL · TODOS OS DIAS</p>
+        <h1 id="hero-title">Pão que vira<br><em>memória.</em></h1>
+        <p class="intro">Uma padaria para desacelerar, dividir a mesa e levar para casa o sabor das coisas feitas com calma.</p>
+      </section>
+
+      <nav class="bakery-menu" id="menu" aria-label="Menu principal">
+        <a class="menu-link is-active" href="#cardapio" data-scene="cardapio"><span>O cardápio</span><i>01</i></a>
+        <a class="menu-link" href="#paes" data-scene="paes"><span>Pães artesanais</span><i>02</i></a>
+        <a class="menu-link" href="#cafes" data-scene="cafes"><span>Cafés</span><i>03</i></a>
+        <a class="menu-link" href="#encomendas" data-scene="encomendas"><span>Encomendas</span><i>04</i></a>
+        <a class="menu-link" href="#historia" data-scene="historia"><span>Nossa história</span><i>05</i></a>
+      </nav>
+
+      <footer class="bakery-meta">
+        <span>Rua da Padaria, 100 · São Paulo, SP</span>
+        <span>© Padaria Artesanal</span>
+      </footer>
+
+      <div class="scene-label" aria-live="polite"><span data-scene-label>O cardápio</span><small>passe o mouse pelas histórias</small></div>
+    </main>
+  </body>
+</html>
