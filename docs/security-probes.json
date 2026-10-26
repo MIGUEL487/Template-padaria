@@ -1,0 +1,18 @@
+[
+  {
+    "path": "/.git/config",
+    "status": 404
+  },
+  {
+    "path": "/.env",
+    "status": 404
+  },
+  {
+    "path": "/package.json",
+    "status": 404
+  },
+  {
+    "path": "/../package.json",
+    "status": 404
+  }
+]

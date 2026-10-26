@@ -1,0 +1,108 @@
+[
+  {
+    "width": 390,
+    "reduced": false,
+    "errors": [],
+    "captured": [
+      ".story-pin",
+      "#essencia",
+      "#cardapio",
+      "#historia",
+      "#experiencia",
+      ".review-section",
+      "#visita",
+      ".last-call",
+      ".site-footer"
+    ],
+    "h1": 1,
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "reduced": true,
+    "errors": [],
+    "captured": [
+      "#essencia",
+      ".story-pin",
+      "#cardapio",
+      "#historia",
+      "#experiencia",
+      ".review-section",
+      "#visita",
+      ".last-call",
+      ".site-footer"
+    ],
+    "h1": 1,
+    "overflow": false
+  },
+  {
+    "width": 768,
+    "reduced": false,
+    "errors": [],
+    "captured": [
+      ".story-pin",
+      "#essencia",
+      "#cardapio",
+      "#historia",
+      "#experiencia",
+      ".review-section",
+      "#visita",
+      ".last-call",
+      ".site-footer"
+    ],
+    "h1": 1,
+    "overflow": false
+  },
+  {
+    "width": 768,
+    "reduced": true,
+    "errors": [],
+    "captured": [
+      "#essencia",
+      ".story-pin",
+      "#cardapio",
+      "#historia",
+      "#experiencia",
+      ".review-section",
+      "#visita",
+      ".last-call",
+      ".site-footer"
+    ],
+    "h1": 1,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "reduced": false,
+    "errors": [],
+    "captured": [
+      ".story-pin",
+      "#essencia",
+      "#cardapio",
+      "#historia",
+      "#experiencia",
+      ".review-section",
+      "#visita",
+      ".last-call"
+    ],
+    "h1": 1,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "reduced": true,
+    "errors": [],
+    "captured": [
+      "#essencia",
+      ".story-pin",
+      "#cardapio",
+      "#historia",
+      "#experiencia",
+      ".review-section",
+      "#visita",
+      ".last-call"
+    ],
+    "h1": 1,
+    "overflow": false
+  }
+]

@@ -1,0 +1,16 @@
+/* Optical shape blending: alternate static masks; only opacity/transform animate. */
+.mask-alternate{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:40% 56% 48% 40%;opacity:0;animation:mask-breathe 16s cubic-bezier(.22,1,.36,1) infinite;animation-play-state:paused;pointer-events:none}
+.running .mask-alternate{animation-play-state:running}
+@keyframes mask-breathe{50%{opacity:1;transform:rotate(-2deg) scale(1.02)}}
+.shimmer-button>span:not(.sheen),.text-link>span{font-size:0;width:24px;height:24px;position:relative;display:inline-block;flex-shrink:0}
+.shimmer-button>span:not(.sheen):before,.text-link>span:before{content:'';position:absolute;top:50%;left:0;width:24px;height:1px;background:currentColor;transform:rotate(-45deg)}
+.shimmer-button>span:not(.sheen):after,.text-link>span:after{content:'';position:absolute;top:0;right:0;width:16px;height:16px;border-top:1px solid;border-right:1px solid}
+.hero-brand{padding:16px 24px;border-radius:16px;background:#2a1810cc;left:24px;top:24px}
+.social-links{display:flex;gap:24px;flex-wrap:wrap;margin-top:32px}.social-links a{display:inline-flex;align-items:center;min-height:48px}
+.navbar.nav-visible+main .hero-brand{opacity:0}
+.story-pin:after{height:192px;z-index:0}.story-grid{position:relative;z-index:1}.story-caption{z-index:1}
+.last-call{background:linear-gradient(to bottom,var(--cream) 0 calc(100% - 192px),var(--beige))}
+.marquee{padding-bottom:0}.marquee:after{content:'';display:block;height:192px;margin-top:32px;background:linear-gradient(var(--beige),var(--cocoa))}
+.marquee-track span[aria-hidden]{font-size:0;display:inline-block;width:24px;height:32px}.marquee-track span[aria-hidden]:before{content:'*';font:40px/40px Georgia,serif;color:var(--coffee)}
+.motion-off .mask-alternate,.animations-off .mask-alternate{opacity:0!important}
+@media(max-width:768px){.hero-brand{padding:8px 16px;left:16px;top:16px}.hero-brand .brand{font-size:24px;line-height:32px}.hero-brand .brand small{font-size:16px;line-height:24px;margin-top:0}}
