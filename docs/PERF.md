@@ -1,5 +1,7 @@
 # Desempenho medido — build estático
 
+**Histórico:** a tabela abaixo mede o conjunto PC anterior (239 WebP em 1080×720). O PC atual usa 150 JPEGs Full HD em 1920×1080 e janela menor de bitmaps. Consulte `hero-fullscreen-update.md` para a revisão atual; estes números não devem ser apresentados como medição do novo vídeo.
+
 Chromium headless em Linux, servidor de .output/public na porta 8780. Scroll por mouse.wheel, medição de requestAnimationFrame e Performance.getMetrics via CDP. Não é medição de aparelho físico. Resultados brutos em perf-results.json; scripts reproduzíveis em scripts/perf-hero.mjs.
 
 Matriz final repetida após a correção da ordem de inicialização dos pins. Ambos os conjuntos usam janela ±8 / 12 à frente e 2 decodificações simultâneas. Mobile usa DPR interno 1; desktop respeita a origem e o teto 1,25. O desktop foi repetido após reduzir sua janela; a matriz móvel desta versão já usava esses mesmos limites.

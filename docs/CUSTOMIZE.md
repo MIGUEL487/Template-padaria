@@ -14,6 +14,8 @@ Os ZIPs recebidos mais recentemente são a fonte atual. `scripts/import-assets.m
 
 As fotos têm variantes AVIF e WebP em 640, 960 e 1440 pixels. Não existe remoção artificial de fundo: máscaras circulares e orgânicas preservam os fundos originais.
 
+O PC foi substituído depois por 150 JPEGs Full HD. Reimporte somente PC com `npm run prepare:frames:pc -- /pasta/jpeg`. Esse script preserva os JPEGs e o manifesto móvel. Não rode o importador combinado usando a pasta antiga v2, pois ela contém o PC anterior. O poster inicial do hero lê diretamente o manifesto gerado, evitando caminhos divergentes entre poster e player.
+
 ## Fontes
 
 Nenhuma fonte personalizada foi recebida. Georgia e system-ui são reservas reais usadas no site. Para Bringbold Nineties, Kangmas e Balney, forneça arquivos e licença comercial, converta para WOFF2 e configure `@font-face` com `font-display:swap`. Nenhuma dessas fontes foi declarada como carregada. DM Sans também não foi baixada.

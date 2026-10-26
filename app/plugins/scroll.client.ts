@@ -13,7 +13,8 @@ export default defineNuxtPlugin(nuxt=>{
  const visibility=()=>document.documentElement.classList.toggle('page-hidden',document.hidden);document.addEventListener('visibilitychange',visibility)
  const preference=()=>{try{if(localStorage.getItem('refugio-motion')===null&&forced===null)enabled.value=!query.matches}catch{enabled.value=!query.matches}};query.addEventListener('change',preference)
  const scrollTo=(target:string)=>{const el=document.querySelector(target);if(!el)return;if(lenis)lenis.scrollTo(el as HTMLElement,{offset:-80});else el.scrollIntoView({behavior:enabled.value?'smooth':'instant'})}
+ const jumpTo=(top:number)=>{if(lenis)lenis.scrollTo(top,{immediate:true,force:true});else window.scrollTo({top,behavior:'instant'});ScrollTrigger.update()}
  const click=(event:MouseEvent)=>{const a=(event.target as HTMLElement).closest('a[href^="#"]');if(a){const href=a.getAttribute('href');if(href&&href.length>1&&document.querySelector(href)){event.preventDefault();scrollTo(href);history.replaceState(null,'',href)}}};document.addEventListener('click',click)
  nuxt.hook('app:beforeMount',()=>{})
- return {provide:{scrollEngine:{gsap,ScrollTrigger,scrollTo}}}
+ return {provide:{scrollEngine:{gsap,ScrollTrigger,scrollTo,jumpTo}}}
 })

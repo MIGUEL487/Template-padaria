@@ -1,6 +1,6 @@
 import sharp from 'sharp';
 import {readdir,readFile,writeFile,mkdir,copyFile,rm,stat} from 'node:fs/promises';
-const root=process.argv[2]||'/workspace/refugio-assets/v2';
+const root=process.argv[2];if(!root)throw Error('Informe a pasta atualizada dos dois conjuntos e fotos. Para substituir só PC, use replace-pc-frames.mjs.');
 const manifest={};await mkdir('public/images',{recursive:true});
 for(const [set,folder]of [['pc','pc/pc'],['mobile','mobile/celular']]){
  const dir=`${root}/${folder}`;const names=(await readdir(dir)).filter(n=>/^frame_\d+\.webp$/.test(n)).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));

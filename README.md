@@ -5,7 +5,6 @@ Site de página única em Nuxt 4, Vue 3 e TypeScript, com Tailwind v4, GSAP, Len
 ```sh
 npm ci --ignore-scripts
 npm run typecheck
-npm run prepare:frames -- /workspace/refugio-assets/v2
 npm run generate
 python3 -m http.server 8780 --directory .output/public
 ```
@@ -16,7 +15,9 @@ Na Vercel, deixe a saída automática do framework Nuxt: o preset vercel-static 
 
 ## Materiais e personalização
 
-Os novos ZIPs substituíram os primeiros: 239 frames de PC em 1080×720 e 150 de celular em 720×1280, além das cinco fotografias. Não há fontes personalizadas: as reservas atuais são Georgia e system-ui. Fontes Zarmatype gratuitas para uso pessoal exigem licença comercial para venda do template. Endereço, horários, avaliações e cardápio são demonstrativos. WhatsApp não é inventado: vazio, abre informação em vez de enviar um pedido. Redes não preenchidas ficam ocultas.
+O PC usa agora 150 JPEGs Full HD em 1920×1080, preservados do novo ZIP; o celular mantém seus 150 WebP em 720×1280. As cinco fotografias permanecem. Os assets publicados já estão versionados: não é necessário reimportar para gerar o site. Para substituir só PC: `npm run prepare:frames:pc -- /pasta/dos/jpeg`. O importador combinado antigo substitui ambos os conjuntos e deve receber somente uma pasta com material atualizado.
+
+Não há fontes personalizadas: as reservas atuais são Georgia e system-ui. Fontes Zarmatype gratuitas para uso pessoal exigem licença comercial para venda do template. Endereço, horários, avaliações e cardápio são demonstrativos. WhatsApp não é inventado: vazio, abre informação em vez de enviar um pedido. Redes não preenchidas ficam ocultas.
 
 ## Relatórios
 

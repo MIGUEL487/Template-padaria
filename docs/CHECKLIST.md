@@ -6,12 +6,13 @@
 - [x] Referência Sunbeam tentada, bloqueada pelo proxy; sem extração inventada.
 - [x] Nuxt 4, Vue 3, TypeScript, Tailwind v4, GSAP, Lenis e motion-v instalados.
 - [x] Lint varre todos os arquivos CSS/Vue/TS de app; prova com `padding:13px` falhou como esperado, fixture removida.
-- [x] Novos frames recebidos: PC 239 paisagem; celular 150 retrato. Manifesto exclui posters.
+- [x] PC atualizado novamente: 150 JPEGs Full HD 1920×1080; celular preservado com 150 WebP 720×1280. Manifesto exclui posters.
 - [x] Cinco fotografias recebidas e otimizadas para AVIF/WebP em três larguras.
 - [x] Reservas Georgia/system-ui usadas e documentadas. Fontes personalizadas continuam não fornecidas.
 - [x] Hero e janela de bitmaps; bitmap.close; fallback de poster; progresso imperativo sem updates Vue por tick.
 - [x] Dez blocos de página, quatro componentes Inspira adaptados e movimento com pausa por viewport.
 - [x] Medições do hero no build estático: 16 cenários, com/sem Lenis, DPR 1/2, CPU 1×/4×; reteste móvel após ajuste.
+- [x] Nova medição do PC Full HD em oito cenários e teste de cobertura em seis viewports, mudanças de altura e rotação. Selo removido em PC e celular; detalhes em hero-fullscreen-update.md.
 - [x] Cardápio filtrável, modal demonstrativo, mapa e links seguros, preferência de movimento.
 - [x] Title/description/OG, JSON-LD Bakery, sitemap, robots, favicon; sem backend.
 - [x] Revisão local de superfície estática e dependências, com alerta conhecido e limitações documentadas.

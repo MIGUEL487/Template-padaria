@@ -1,6 +1,16 @@
 # Inspeção dos anexos v2
 
-## Atualização — arquivos finais recebidos
+## Atualização atual — novos frames Full HD de PC
+
+`ezgif-608aead148f86922-jpg.zip` substitui **somente o conjunto PC**. São 150 JPEGs, `ezgif-frame-001.jpg` a `ezgif-frame-150.jpg`, todos em **1920×1080**, sem mudança de dimensões. Cena: peneira polvilhando farinha em um pão, em paisagem. Primeiro, intermediário e último frame foram abertos visualmente.
+
+Os bytes JPEG foram preservados sem reconversão ou upscaling. Total: **5.788.858 bytes**; maior frame: **127.659 bytes**. O poster é cópia do primeiro frame com nome novo `poster-hq.jpg`. O manifesto usa os nomes reais e o novo caminho para não reutilizar os antigos WebP de PC. A cor inferior do último frame, medida, é `#605a54`.
+
+Os 150 WebP móveis em 720×1280 e as cinco fotos **não foram alterados**. Agora são 300 frames no total. O conjunto PC anterior de 239 WebP foi removido da árvore publicada. O pico de bitmaps permitido foi reduzido no PC para janela ±4 / 6 à frente para compensar a resolução maior.
+
+As medições anteriores em PERF.md referem-se ao PC antigo; a atualização Full HD tem validações específicas em `fullscreen-checks.json` e `hero-fullscreen-update.md`.
+
+## Material recebido anteriormente — PC substituído pela atualização acima
 
 Os anexos `files.zip` e `fotos-webp.zip` substituem os conjuntos abaixo. Foram extraídos e inspecionados primeiro, meio e último frame, além das cinco fotografias.
 

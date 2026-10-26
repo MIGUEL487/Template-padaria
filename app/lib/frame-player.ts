@@ -11,10 +11,22 @@ export async function framePlayer(root:HTMLElement,canvas:HTMLCanvasElement,post
  const connection=(navigator as Navigator&{connection?:{saveData:boolean;effectiveType:string}}).connection
  const step=connection?.saveData||connection?.effectiveType?.includes('2g')?2:1
  const indices=Array.from({length:Math.ceil(set.count/step)},(_,i)=>Math.min(set.count-1,i*step));if(indices.at(-1)!==set.count-1)indices.push(set.count-1)
- const resize=()=>{const w=root.clientWidth,h=root.clientHeight;const ratio=Math.min(mobile?1:1.25,devicePixelRatio,set.width/w,set.height/h);canvas.width=Math.max(1,Math.round(w*ratio));canvas.height=Math.max(1,Math.round(h*ratio));const scale=Math.max(canvas.width/set.width,canvas.height/set.height);rect=[(canvas.width-set.width*scale)/2,(canvas.height-set.height*scale)/2,set.width*scale,set.height*scale];dirty=true;dimensionsDirty=true}
+ const resize=()=>{
+  const w=root.clientWidth,h=root.clientHeight;if(!w||!h)return
+  const ratio=Math.min(mobile?1:1.25,devicePixelRatio,set.width/w,set.height/h)
+  const width=Math.max(1,Math.round(w*ratio)),height=Math.max(1,Math.round(h*ratio))
+  if(canvas.width===width&&canvas.height===height&&!dimensionsDirty)return
+  canvas.width=width;canvas.height=height
+  const scale=Math.max(width/set.width,height/set.height);rect=[(width-set.width*scale)/2,(height-set.height*scale)/2,set.width*scale,set.height*scale];dirty=true;dimensionsDirty=true
+  // Resizing clears a canvas. Repaint the retained bitmap before the browser paints,
+  // rather than showing a black/empty surface while waiting for the next ticker.
+  const retained=bitmaps.get(drawn)
+  if(retained){ctx.drawImage(retained,rect[0]!,rect[1]!,rect[2]!,rect[3]!);canvas.style.opacity='1';dimensionsDirty=false}
+  else canvas.style.opacity='0'
+ }
  const ro=new ResizeObserver(resize);ro.observe(root);resize()
  const io=new IntersectionObserver(([entry])=>{visible=!!entry?.isIntersecting;dirty=true});io.observe(root)
- const radius=8,ahead=12
+ const radius=mobile?8:4,ahead=mobile?12:6
  const inWindow=(i:number)=>Math.abs(i-target)<=radius||(direction>0?i>target&&i-target<=ahead:i<target&&target-i<=ahead)
  function trim(){for(const [i,b]of bitmaps){if(!inWindow(i)&&i!==drawn){b.close();bitmaps.delete(i)}}}
  function decode(i:number){if(disposed||failed.has(i)||bitmaps.has(i)||pending.has(i)||!compressed.has(i)||!inWindow(i)||decoding>=2)return;pending.add(i);decoding++;createImageBitmap(compressed.get(i)!).then(b=>{if(disposed||!inWindow(i)){b.close();return}bitmaps.set(i,b);dirty=true}).catch(()=>{failed.add(i)}).finally(()=>{pending.delete(i);decoding--;if(!disposed){trim();warm()}})}

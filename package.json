@@ -7,7 +7,8 @@
     "generate": "node scripts/lint-scale.mjs && nuxt generate && node scripts/harden-output.mjs",
     "build": "npm run generate",
     "typecheck": "nuxt typecheck",
-    "prepare:frames": "node scripts/import-assets.mjs"
+    "prepare:frames": "node scripts/import-assets.mjs",
+    "prepare:frames:pc": "node scripts/replace-pc-frames.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",
