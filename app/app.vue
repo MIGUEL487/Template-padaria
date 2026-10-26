@@ -23,7 +23,7 @@ useHead({link:[{rel:'icon',type:'image/svg+xml',href:'/favicon.svg'}],meta:[{pro
     <div class="transition-band" :style="{'--exit-color':exit}" aria-hidden="true"/>
     <ToneSection id="essencia" class="essence" tone="var(--cream)" next="var(--beige)"><div class="wrap">
       <UiBlurReveal><p class="eyebrow">Nossa essência</p></UiBlurReveal>
-      <div class="essence-grid"><UiBlurReveal><h2>As melhores coisas<br>pedem uma pausa.</h2><p class="lead">O pão ainda morno. O café sem pressa.<br>Uma mesa onde você pode simplesmente ficar.</p><a class="text-link" href="#historia">Entre, a casa é sua <span>↗</span></a></UiBlurReveal><div class="bread-world"><MotionImage name="Pao" alt="Pãezinhos dourados vistos de cima" variant="parts"/></div></div>
+      <div class="essence-grid"><UiBlurReveal><h2>As melhores coisas<br>pedem uma pausa.</h2><p class="lead">O pão ainda morno. O café sem pressa.<br>Uma mesa onde você pode simplesmente ficar.</p><a class="text-link" href="#historia">Entre, a casa é sua <span>↗</span></a></UiBlurReveal><BreadPortrait/></div>
       <div class="pillars"><UiBlurReveal v-for="(p,i) in pillars" :key="p.title" :delay="i*.08"><h3>{{p.title}}</h3><p>{{p.copy}}</p></UiBlurReveal></div>
     </div></ToneSection>
     <Story/>
