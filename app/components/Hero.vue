@@ -12,9 +12,10 @@ onMounted(()=>{
  try{const player=await framePlayer(el,canvas.value,poster.value,engine.gsap,color=>{const ink=[42,24,16];const out='#'+ink.map((base,c)=>Math.round(base*.96+parseInt(color.slice(1+c*2,3+c*2),16)*.04).toString(16).padStart(2,'0')).join('');emit('exit',out)});if(gen!==generation){player.dispose();return}
  const tl=engine.gsap.timeline({paused:true}).to(shade,{opacity:1,duration:.7},0).to(copy.children,{opacity:1,y:0,stagger:.12,duration:.6},.1).to(cue,{opacity:0,duration:.2},0)
  let navigation=false
- const trigger=engine.ScrollTrigger.create({trigger:el,start:'top top',end:()=>`+=${innerHeight*(matchMedia('(pointer:coarse)').matches?4:6)}`,pin:true,invalidateOnRefresh:true,onUpdate:self=>{player.set(self.progress);tl.progress(Math.max(0,Math.min(1,(self.progress-.72)/.28)));const next=self.progress>.96;if(next!==navigation){navigation=next;emit('nav',next)}},onRefresh:self=>player.set(self.progress)})
+ const trigger=engine.ScrollTrigger.create({trigger:el,start:'top top',end:()=>`+=${innerHeight*(matchMedia('(pointer:coarse)').matches?4:6)}`,pin:true,refreshPriority:10,invalidateOnRefresh:true,onUpdate:self=>{player.set(self.progress);tl.progress(Math.max(0,Math.min(1,(self.progress-.72)/.28)));const next=self.progress>.96;if(next!==navigation){navigation=next;emit('nav',next)}},onRefresh:self=>player.set(self.progress)})
  el.dataset.count=String(player.count)
  ;(el as HTMLElement&{frameStats?:()=>unknown}).frameStats=()=>({...player.stats(),vueUpdates:updates})
+ engine.ScrollTrigger.sort();engine.ScrollTrigger.refresh()
  cleanup=()=>{trigger.kill();tl.kill();player.dispose();canvas.value&&(canvas.value.style.opacity='0')}
  }catch{el.classList.add('native-motion');emit('nav',true)}}
  const stop=watch(enabled,setup);void setup();const mq=matchMedia('(max-width:768px), (orientation:portrait)');mq.addEventListener('change',setup)

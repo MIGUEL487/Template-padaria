@@ -12,6 +12,7 @@ As skills frontend-design, design-taste-frontend e high-end-visual-design foram 
 - Favicon ausente e setas sem glifo no Chromium: favicon SVG local e setas desenhadas em CSS.
 - Capturas longas de página com pin produzem espaçadores vazios: evidência visual foi refeita rolando e capturando seções individualmente.
 - Modo sem JavaScript: seletor CSS do noscript tinha escaping incorreto; substituído por seletores simples e verificado no HTML gerado.
+- Ordem dos pins: o hero inicia depois do fetch do manifesto; a narrativa já havia calculado posições sem seu espaçador. Foi definida prioridade de refresh do hero, seguida de sort/refresh global. O teste de limite agora exige hero no topo ao fim do pin e narrativa ainda abaixo da viewport, em desktop e móvel.
 
 ## Limites visuais reconhecidos
 
