@@ -1,0 +1,6 @@
+{
+  "idleCanvas": "no redraw without index or size change",
+  "corruptFrame": "nearest valid bitmap drawn without decode retry loop",
+  "catalog": "6 products, category filter returns 2 coffees",
+  "errors": []
+}

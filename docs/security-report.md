@@ -27,3 +27,5 @@ A01/A07: não há controle de acesso ou autenticação para avaliar. A02: config
 Resultados das verificações locais e limitações devem ser lidos junto com `PERF.md` e `CHECKLIST.md`; não equivalem a certificação ou scan de produção.
 
 Probes locais de `/.git/config`, `/.env`, `/package.json` e `/../package.json` retornaram 404 no servidor que serve somente `.output/public`. Isso confirma isolamento desses caminhos nesta execução, não em qualquer configuração de hosting.
+
+O caminho com `..` foi normalizado pelo fetch do cliente; esse resultado não é prova de teste de path traversal bruto contra o servidor.

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {site} from './config/site'
-import {pillars,products,reviews} from './content/demo'
+const {pillars,products,reviews}=site
 const nav=ref(false),exit=ref('#3a2418'),filter=ref('Todos'),enabled=useMotionPreference(),dialog=ref<HTMLDialogElement>(),selected=ref<(typeof products)[number]>()
 const theme=computed(()=>Object.fromEntries([...Object.entries(site.colors).map(([k,v])=>[`--${k}`,v]),['--display',`${site.fonts.display},serif`],['--sans',`${site.fonts.body},sans-serif`]]))
 const socialLinks=Object.entries(site.socials).filter(([,url])=>/^https:\/\//.test(url))

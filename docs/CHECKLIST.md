@@ -16,7 +16,7 @@
 - [x] Title/description/OG, JSON-LD Bakery, sitemap, robots, favicon; sem backend.
 - [x] Revisão local de superfície estática e dependências, com alerta conhecido e limitações documentadas.
 - [ ] Pentest automatizado Strix: CLI/configuração não disponíveis; não executado.
-- [ ] Meta estrita de nenhum intervalo acima de 50 ms: não cumprida universalmente, dois picos em CPU 4× móvel.
+- [ ] Meta estrita de nenhum intervalo acima de 50 ms: não cumprida universalmente; houve picos no ambiente virtual, sobretudo em CPU 4×. Valores e contexto no PERF.md.
 - [x] Screenshots por seção em 390/768/1440, com e sem redução de movimento; revisão de layout e ausência de overflow.
 - [ ] Homologação em Safari/iPhone físico e teste de longa duração de memória.
 - [ ] Contatos, avaliações, dados comerciais e fontes reais fornecidos antes do lançamento comercial.
