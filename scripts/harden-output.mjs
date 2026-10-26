@@ -1,3 +1,5 @@
 import {readFile,writeFile,readdir}from'node:fs/promises';import{createHash}from'node:crypto';
-const root='.output/public';
+// Nitro selects vercel-static when VERCEL=1; its Build Output API directory differs
+// from a normal local `nuxt generate`. An explicit argument supports custom presets.
+const root=process.argv[2]||(process.env.VERCEL==='1'?'.vercel/output/static':'.output/public');
 async function harden(dir){for(const e of await readdir(dir,{withFileTypes:true})){const p=`${dir}/${e.name}`;if(e.isDirectory())await harden(p);else if(e.name.endsWith('.html')){let s=await readFile(p,'utf8');const hashes=[...s.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].filter(m=>m[1]).map(m=>`'sha256-${createHash('sha256').update(m[1]).digest('base64')}'`);const csp=`default-src 'self'; script-src 'self' ${hashes.join(' ')}; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'none'`;s=s.replace('<head>',`<head><meta http-equiv="Content-Security-Policy" content="${csp}">`);await writeFile(p,s)}}}await harden(root);console.log('CSP: hashes de scripts locais aplicados ao HTML estático.');

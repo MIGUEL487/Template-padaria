@@ -26,6 +26,8 @@ Preferência do sistema é respeitada; rodapé persiste a escolha em localStorag
 
 ## Publicação
 
-Vercel: raiz do checkout, framework Nuxt, `npm run generate`, saída `.output/public`. Netlify: mesmo comando e pasta; `_headers` acompanha os arquivos públicos. O build injeta CSP com hashes por HTML; estilos inline são necessários para Vue/GSAP e permitidos. Nunca sirva a raiz do repositório em produção. Não há backend, API, login ou checkout.
+Vercel: raiz do checkout, framework Nuxt, `npm run generate`. Com VERCEL=1, Nitro escolhe vercel-static e gera `.vercel/output/static` com a configuração Build Output API em `.vercel/output/config.json`. Não force Output Directory para `.output/public` na Vercel: deixe a integração Nuxt usar a saída nativa. Localmente, a saída continua `.output/public`. O script CSP seleciona a pasta correta conforme o ambiente; também aceita caminho explícito por argumento para presets personalizados.
+
+O build injeta CSP com hashes por HTML; estilos inline são necessários para Vue/GSAP e permitidos. Nunca sirva a raiz do repositório em produção. Não há backend, API, login ou checkout.
 
 Tipos em `app/types/extensions.ts` são apenas limites para futuras integrações; não existe implementação antecipada de carrinho, painel ou blog.

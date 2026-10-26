@@ -12,6 +12,8 @@ python3 -m http.server 8780 --directory .output/public
 
 O script de frames usa os arquivos reais e não depende de sequência contínua. Caminho de entrada é fornecido por argumento; originais ficam fora do repositório. `npm run generate` impõe o lint da escala. Consulte `docs/asset-report.md`, `docs/assets-measured.json`, `docs/image-plan.md` e `docs/design-system-reference.md`.
 
+Na Vercel, deixe a saída automática do framework Nuxt: o preset vercel-static produz `.vercel/output/static`, enquanto o build local produz `.output/public`. O script CSP considera essa diferença. Não configure manualmente `.output/public` como Output Directory na Vercel.
+
 ## Materiais e personalização
 
 Os novos ZIPs substituíram os primeiros: 239 frames de PC em 1080×720 e 150 de celular em 720×1280, além das cinco fotografias. Não há fontes personalizadas: as reservas atuais são Georgia e system-ui. Fontes Zarmatype gratuitas para uso pessoal exigem licença comercial para venda do template. Endereço, horários, avaliações e cardápio são demonstrativos. WhatsApp não é inventado: vazio, abre informação em vez de enviar um pedido. Redes não preenchidas ficam ocultas.
