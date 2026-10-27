@@ -1,0 +1,122 @@
+{
+  "viewport": "360×640, DPR 3",
+  "cpuSlowdown": 4,
+  "downloadBytesPerSecond": 200000,
+  "latencyMs": 120,
+  "mode": "native-sticky",
+  "samples": [
+    {
+      "decoded": 2,
+      "compressed": 8,
+      "target": 18,
+      "drawn": 7,
+      "width": 360,
+      "height": 640,
+      "sourceWidth": 720,
+      "sourceHeight": 1280,
+      "vueUpdates": 0
+    },
+    {
+      "decoded": 2,
+      "compressed": 12,
+      "target": 36,
+      "drawn": 19,
+      "width": 360,
+      "height": 640,
+      "sourceWidth": 720,
+      "sourceHeight": 1280,
+      "vueUpdates": 0
+    },
+    {
+      "decoded": 2,
+      "compressed": 16,
+      "target": 53,
+      "drawn": 37,
+      "width": 360,
+      "height": 640,
+      "sourceWidth": 720,
+      "sourceHeight": 1280,
+      "vueUpdates": 0
+    },
+    {
+      "decoded": 2,
+      "compressed": 21,
+      "target": 71,
+      "drawn": 55,
+      "width": 360,
+      "height": 640,
+      "sourceWidth": 720,
+      "sourceHeight": 1280,
+      "vueUpdates": 0
+    },
+    {
+      "decoded": 2,
+      "compressed": 29,
+      "target": 89,
+      "drawn": 80,
+      "width": 360,
+      "height": 680,
+      "sourceWidth": 720,
+      "sourceHeight": 1280,
+      "vueUpdates": 0
+    },
+    {
+      "decoded": 2,
+      "compressed": 34,
+      "target": 107,
+      "drawn": 91,
+      "width": 360,
+      "height": 680,
+      "sourceWidth": 720,
+      "sourceHeight": 1280,
+      "vueUpdates": 0
+    },
+    {
+      "decoded": 2,
+      "compressed": 38,
+      "target": 124,
+      "drawn": 107,
+      "width": 360,
+      "height": 680,
+      "sourceWidth": 720,
+      "sourceHeight": 1280,
+      "vueUpdates": 0
+    },
+    {
+      "decoded": 2,
+      "compressed": 42,
+      "target": 142,
+      "drawn": 124,
+      "width": 360,
+      "height": 680,
+      "sourceWidth": 720,
+      "sourceHeight": 1280,
+      "vueUpdates": 0
+    },
+    {
+      "decoded": 2,
+      "compressed": 47,
+      "target": 149,
+      "drawn": 143,
+      "width": 360,
+      "height": 680,
+      "sourceWidth": 720,
+      "sourceHeight": 1280,
+      "vueUpdates": 0
+    }
+  ],
+  "final": {
+    "decoded": 3,
+    "compressed": 50,
+    "target": 149,
+    "drawn": 149,
+    "width": 360,
+    "height": 680,
+    "sourceWidth": 720,
+    "sourceHeight": 1280,
+    "vueUpdates": 0
+  },
+  "gaps": [],
+  "errors": [],
+  "physicalDevice": false
+}

@@ -1,0 +1,19 @@
+# Scroll nativo do hero móvel
+
+Relato do usuário: no Chrome de um Moto Z3 Play, durante o gesto aparecia uma região branca, a imagem voltava depois e o scroll podia deixar de avançar a sequência. As correções anteriores de fila/encerramento passaram em emulação, mas não resolveram o aparelho. Não foi possível reproduzir ou confirmar a causa no dispositivo físico.
+
+A implementação móvel agora usa um contêiner alto e `position:sticky` do navegador. O hero móvel não recebe `pin:true`, transform de fixação ou pin-spacer do ScrollTrigger. O avanço usa o deslocamento real do contêiner no documento, com listener passivo e coalescência por requestAnimationFrame, sem tween intermediário. O desktop mantém o pin e a suavização anteriores; ScrollTrigger ainda anima as outras seções.
+
+A distância da sequência é medida uma vez por montagem/orientação. Mudanças somente na altura da barra do Chrome não recalculam essa distância. O contêiner soma a distância estável a `100dvh`, enquanto a superfície da imagem usa `100lvh` e é recortada pela altura visível. No navegador real isso evita recriar o canvas para cada movimento da barra. Em emulação, um redimensionamento de janela também muda lvh e ainda pode redimensionar a superfície; o último bitmap é repintado imediatamente.
+
+O renderer de frames usa requestAnimationFrame sob demanda, tanto no PC quanto no celular, independente do ticker do GSAP. Nenhuma atualização depende de IntersectionObserver informar que o elemento fixado continua visível. Não há loop permanente quando os dados não mudam. Downloads/decodificações invalidam a imagem; voltar de uma aba oculta também solicita pintura. Listeners e callbacks pendentes são removidos no descarte.
+
+O teste com rede limitada revelou também um descarte inadequado: downloads que chegavam depois de o alvo sair da janela de decodificação não eram aproveitados. A imagem ficava parada mesmo com novos arquivos disponíveis. Agora o quadro baixado mais próximo do alvo pode ser decodificado e retido fora da janela, além do último quadro desenhado. A seleção é recalculada a cada chegada e movimento, sem abandonar o limite de duas decodificações simultâneas. Isso evita a estagnação causada pelo descarte, mas uma conexão lenta ainda limita quantos quadros podem ser mostrados durante um gesto rápido.
+
+No ensaio antes dessa recuperação, as quatro primeiras amostras desenhavam o frame 3, mesmo com alvos 18, 36, 53 e 71. Depois, nas mesmas condições limitadas, desenharam 7, 19, 37 e 55. Ao parar no final, o quadro 149 foi desenhado. O relatório mantém o atraso entre alvo e desenho visível: a recuperação não cria quadros que a conexão ainda não entregou. Nenhuma amostra de cobertura durante o gesto registrou faixa descoberta neste teste.
+
+A janela móvel de imagens decodificadas foi reduzida para quatro anteriores/oito seguintes, cerca de 13 imagens, mais no máximo a imagem retida e o candidato de recuperação. Cada bitmap 720×1280 exige aproximadamente 3,7 MB RGBA; a janela principal cai de ~77 MB para ~48 MB, mais os dois candidatos e demais recursos. Não representa medição de memória total do aparelho. A altura do contêiner também tem uma reserva em pixels para versões antigas do Chrome que não aceitam `dvh`.
+
+Validação: build/typecheck, seis viewports com mudanças de altura e orientação, primeira passagem sem cache, decoder alternativo, sequência com gestos de toque e último frame atrasado. `check-native-mobile.mjs` acrescenta viewport 360×640/DPR 3, CPU 4× mais lenta e rede de 200.000 bytes/s com 120 ms de latência. Registra limites do hero durante os gestos e verifica continuidade do progresso após mudanças de altura. Usar o user agent do Moto não simula seu hardware; estes testes são Chromium no ambiente de desenvolvimento, não Chrome no Moto físico.
+
+O domínio de produção não pôde ser consultado deste ambiente (proxy recusou o túnel HTTPS com 403). O envio ao GitHub não é confirmação de que o deploy da Vercel terminou.
