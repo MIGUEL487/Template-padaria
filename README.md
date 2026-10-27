@@ -1,6 +1,8 @@
 # O Refúgio — template v2
 
-Site de página única em Nuxt 4, Vue 3 e TypeScript, com Tailwind v4, GSAP, Lenis e motion-v. Hero de frames, narrativa presa ao scroll, cardápio filtrável, história, experiência, avaliações demonstrativas, localização e rodapé com preferência de movimento.
+Site de página única em Nuxt 4, Vue 3 e TypeScript, com Tailwind v4, GSAP, Lenis e motion-v. Hero com vídeo nativo comandado pelo scroll e canvas como fallback, narrativa presa ao scroll, cardápio filtrável, história, experiência, avaliações demonstrativas, localização e rodapé com preferência de movimento.
+
+A [revisão de fluidez](docs/native-video-review.md) documenta os testes antes/depois. Os MP4s de ida e volta são versionados em `public/video/`; para recriá-los a partir dos frames originais, use `npm run prepare:video` com FFmpeg instalado. Não é necessário converter vídeos durante o deploy.
 
 ```sh
 npm ci --ignore-scripts

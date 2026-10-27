@@ -1,0 +1,59 @@
+{
+  "snapshots": [
+    {
+      "width": 844,
+      "height": 390,
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 844,
+        "height": 390
+      },
+      "stats": {
+        "renderer": "native-video",
+        "target": 16,
+        "drawn": 2,
+        "painted": 3,
+        "backlog": 14,
+        "waiting": 0,
+        "droppedFrames": 0,
+        "totalVideoFrames": 8,
+        "width": 1920,
+        "height": 1080,
+        "sourceWidth": 1920,
+        "sourceHeight": 1080,
+        "decoded": 0,
+        "compressed": 0,
+        "vueUpdates": 0
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "stats": {
+        "renderer": "native-video",
+        "target": 8,
+        "drawn": 1,
+        "painted": 2,
+        "backlog": 7,
+        "waiting": 0,
+        "droppedFrames": 0,
+        "totalVideoFrames": 5,
+        "width": 720,
+        "height": 1280,
+        "sourceWidth": 720,
+        "sourceHeight": 1280,
+        "decoded": 0,
+        "compressed": 0,
+        "vueUpdates": 0
+      }
+    }
+  ],
+  "errors": []
+}

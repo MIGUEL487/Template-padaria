@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {site} from '../config/site'
-import {framePlayer} from '../lib/frame-player'
+import {heroPlayer as framePlayer} from '../lib/video-player'
 import frames from '../../public/frames/manifest.json'
 const track=ref<HTMLElement>(),root=ref<HTMLElement>(),canvas=ref<HTMLCanvasElement>(),poster=ref<HTMLImageElement>(),enabled=useMotionPreference()
 const emit=defineEmits<{nav:[visible:boolean],exit:[color:string]}>();let cleanup=()=>{};let generation=0;let updates=0

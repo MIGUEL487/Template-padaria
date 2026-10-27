@@ -1,0 +1,83 @@
+[
+  {
+    "width": 360,
+    "nativeForward": true,
+    "nativeReverse": true,
+    "pauseAtTarget": true,
+    "observedUpdates": 298,
+    "quality": {
+      "renderer": "native-video",
+      "target": 149,
+      "drawn": 149,
+      "painted": 150,
+      "backlog": 0,
+      "waiting": 0,
+      "droppedFrames": 0,
+      "totalVideoFrames": 150,
+      "width": 720,
+      "height": 1280,
+      "sourceWidth": 720,
+      "sourceHeight": 1280,
+      "decoded": 0,
+      "compressed": 0,
+      "vueUpdates": 0
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "nativeForward": true,
+    "nativeReverse": true,
+    "pauseAtTarget": true,
+    "observedUpdates": 331,
+    "quality": {
+      "renderer": "native-video",
+      "target": 149,
+      "drawn": 149,
+      "painted": 150,
+      "backlog": 0,
+      "waiting": 0,
+      "droppedFrames": 0,
+      "totalVideoFrames": 150,
+      "width": 720,
+      "height": 1280,
+      "sourceWidth": 720,
+      "sourceHeight": 1280,
+      "decoded": 0,
+      "compressed": 0,
+      "vueUpdates": 0
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "nativeForward": true,
+    "nativeReverse": true,
+    "pauseAtTarget": true,
+    "observedUpdates": 298,
+    "quality": {
+      "renderer": "native-video",
+      "target": 149,
+      "drawn": 149,
+      "painted": 150,
+      "backlog": 0,
+      "waiting": 0,
+      "droppedFrames": 0,
+      "totalVideoFrames": 150,
+      "width": 1920,
+      "height": 1080,
+      "sourceWidth": 1920,
+      "sourceHeight": 1080,
+      "decoded": 0,
+      "compressed": 0,
+      "vueUpdates": 0
+    },
+    "errors": []
+  },
+  {
+    "videoErrorFallback": true
+  },
+  {
+    "reducedMotionNoVideoDownload": true
+  }
+]

@@ -6,6 +6,7 @@ body{overflow-x:hidden;overflow-x:clip}
 .hero{height:100vh;height:100dvh;min-height:0}
 .hero-picture{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:hidden}
 .hero .poster,.hero canvas,.hero .shade{display:block;inset:0;width:100%;height:100%}
+.hero-video{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
 @media(max-width:768px),(pointer:coarse){
  html,body{scrollbar-width:none;scrollbar-gutter:auto}
  html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
@@ -13,7 +14,7 @@ body{overflow-x:hidden;overflow-x:clip}
 }
 /* Keep the bitmap surface stable while the browser toolbar moves; clip at the
    visible hero boundary instead of clearing/rescaling the canvas every time. */
-.hero-native .hero-picture,.hero-native canvas{height:100vh;height:100lvh}
+.hero-native .hero-picture,.hero-native canvas,.hero-native .hero-video{height:100vh;height:100lvh}
 @media(max-height:480px) and (orientation:landscape){
  .hero-copy{bottom:16px;left:24px;right:24px}
  .hero-copy h1{font-size:32px;line-height:40px;margin:8px 0}

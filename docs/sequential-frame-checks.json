@@ -305,7 +305,7 @@
       1,
       0
     ],
-    "forwardDurationMs": 5440.199999988079,
+    "forwardDurationMs": 5341.20000000298,
     "waitedForMissingFrame": true,
     "errors": []
   },
@@ -615,7 +615,7 @@
       1,
       0
     ],
-    "forwardDurationMs": 5440,
+    "forwardDurationMs": 5277.100000008941,
     "waitedForMissingFrame": true,
     "errors": []
   }

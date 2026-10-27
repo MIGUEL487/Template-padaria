@@ -1,5 +1,7 @@
 # Reprodução sequencial comandada pelo scroll
 
+Atualização posterior: o caminho principal agora usa reprodução nativa MP4. Este documento descreve o player em canvas preservado como fallback e acessível com `?renderer=frames`. Consulte `native-video-review.md` para a comparação de cadência e a implementação atual.
+
 O scroll define o frame de destino; o frame desenhado avança uma posição de cada vez até esse destino, com cadência máxima de 30 apresentações por segundo. Um salto 0→149 percorre 0, 1, 2…149. A volta percorre os adjacentes na ordem inversa. Um novo gesto pode mudar o destino e inverter a direção a partir da posição já reproduzida.
 
 O relógio não transforma tempo perdido em saltos. Se o próximo frame ainda não foi baixado/decodificado, o canvas conserva a imagem atual e espera. Isso implica atraso em relação ao dedo após um scroll rápido e pausas em conexões insuficientes; não há promessa de 30 fps contínuos em todo aparelho ou rede. Arquivo persistentemente indisponível não é substituído silenciosamente por outro quadro.

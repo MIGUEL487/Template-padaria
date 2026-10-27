@@ -9,7 +9,7 @@ try{
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
   let release;const gate=new Promise(r=>release=r);
   await page.route(width===390?'**/frames/mobile/frame_076.webp':'**/frames/pc/ezgif-frame-076.jpg',async route=>{await gate;await route.continue()});
-  await page.goto(base+'/?motion=full&lenis=off',{waitUntil:'domcontentloaded'});
+  await page.goto(base+'/?motion=full&lenis=off&renderer=frames',{waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>document.querySelector('.hero')?.frameStats?.().drawn===0);
   await page.evaluate(()=>{const c=document.querySelector('.hero canvas');window.__frames=[0];window.__times=[performance.now()];window.__observer=new MutationObserver(()=>{const i=Number(c.dataset.frame);if(window.__frames.at(-1)!==i){window.__frames.push(i);window.__times.push(performance.now())}});window.__observer.observe(c,{attributes:true,attributeFilter:['data-frame']})});
   // Jump over the whole sequence in one gesture. Every intermediate must be painted.
