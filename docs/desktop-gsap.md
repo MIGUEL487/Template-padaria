@@ -8,7 +8,7 @@ Há apenas um elemento de vídeo no PC. Numa inversão real, guarda-se um quadro
 
 Os arquivos `pc-gsap.mp4` e `pc-gsap-reverse.mp4` mantêm 1920×1080, 150 quadros e 30 fps. Têm um keyframe a cada 15 quadros e não usam B-frames: uma inversão não precisa reconstruir uma cadeia de previsão de vários segundos. CRF 23 com perdas, sem redução de resolução. São 2.240.824 e 2.164.991 bytes, respectivamente. `npm run prepare:video:pc` regenera esses arquivos com FFmpeg.
 
-A faixa de PC passa de cinco para três alturas, com 80% para pedir a sequência completa. Assim, um gesto produz mais movimento e menos pausas curtas. A reprodução ainda alcança o destino pela ordem dos quadros; não há seek a cada tick. A pausa de leitura de 2,5 segundos permanece.
+A faixa de PC passa de cinco para três alturas, com 80% para pedir a sequência completa. Assim, um gesto produz mais movimento e menos pausas curtas. A reprodução ainda alcança o destino pela ordem dos quadros; não há seek a cada tick. A pausa após o último quadro foi posteriormente reduzida para 1 segundo, incluindo a entrada do texto.
 
 O player móvel, os seus MP4s e o caminho de sticky/scroll nativo foram preservados. A skill `$gsap` não foi encontrada no catálogo nem nos arquivos locais; foi usada diretamente a biblioteca GSAP já instalada.
 

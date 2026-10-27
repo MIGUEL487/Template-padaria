@@ -2,7 +2,7 @@
   {
     "width": 360,
     "lenis": "on",
-    "fullTextReadMs": 2563.9000000059605,
+    "lastFrameToReleaseMs": 997.3999999761581,
     "momentumBlocked": true,
     "newGestureReleased": true,
     "errors": []
@@ -10,7 +10,7 @@
   {
     "width": 390,
     "lenis": "on",
-    "fullTextReadMs": 2564.1000000089407,
+    "lastFrameToReleaseMs": 1011.3000000119209,
     "momentumBlocked": true,
     "newGestureReleased": true,
     "errors": []
@@ -18,7 +18,7 @@
   {
     "width": 1440,
     "lenis": "on",
-    "fullTextReadMs": 2565.7999999970198,
+    "lastFrameToReleaseMs": 1000.1000000238419,
     "momentumBlocked": true,
     "newGestureReleased": true,
     "errors": []
@@ -26,7 +26,7 @@
   {
     "width": 1440,
     "lenis": "off",
-    "fullTextReadMs": 2549.0999999940395,
+    "lastFrameToReleaseMs": 999.1999999880791,
     "momentumBlocked": true,
     "newGestureReleased": true,
     "errors": []

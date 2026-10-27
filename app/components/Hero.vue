@@ -13,10 +13,10 @@ onMounted(()=>{
  if(!enabled.value){emit('nav',true);return}
  const mobile=matchMedia('(max-width:768px), (orientation:portrait)').matches
  el.classList.toggle('hero-native',mobile)
- let drawn=-1,scrollProgress=0,finalVisible=false,renderCopy=()=>{}
+ let drawn=-1,scrollProgress=0,finalVisible=false,releaseAt=0,hiddenAt=0,renderCopy=()=>{}
  let endingTimer:ReturnType<typeof engine.gsap.delayedCall>|undefined
- try{const player=await framePlayer(el,canvas.value,poster.value,color=>{const ink=[42,24,16];const out='#'+ink.map((base,c)=>Math.round(base*.96+parseInt(color.slice(1+c*2,3+c*2),16)*.04).toString(16).padStart(2,'0')).join('');emit('exit',out)},index=>{drawn=index;if(index===(mobile?frames.mobile.count:frames.pc.count)-1){if(!finalVisible&&!endingTimer)endingTimer=engine.gsap.delayedCall(.35,()=>{finalVisible=true;endingTimer=undefined;renderCopy()})}else{endingTimer?.kill();endingTimer=undefined;finalVisible=false}renderCopy()});if(gen!==generation){player.dispose();return}
- const tl=engine.gsap.timeline({paused:true}).to(shade,{opacity:1,duration:.7},0).to(copy.children,{opacity:1,y:0,stagger:.12,duration:.6,ease:'power2.out'},.1).to(cue,{opacity:0,duration:.2},0)
+ try{const player=await framePlayer(el,canvas.value,poster.value,color=>{const ink=[42,24,16];const out='#'+ink.map((base,c)=>Math.round(base*.96+parseInt(color.slice(1+c*2,3+c*2),16)*.04).toString(16).padStart(2,'0')).join('');emit('exit',out)},index=>{drawn=index;if(index===(mobile?frames.mobile.count:frames.pc.count)-1){if(!finalVisible&&!endingTimer){releaseAt=performance.now()+1000;endingTimer=engine.gsap.delayedCall(.35,()=>{finalVisible=true;endingTimer=undefined;renderCopy()})}}else{endingTimer?.kill();endingTimer=undefined;finalVisible=false;releaseAt=0}renderCopy()});if(gen!==generation){player.dispose();return}
+ const tl=engine.gsap.timeline({paused:true}).to(shade,{opacity:1,duration:.7},0).to(copy.children,{opacity:1,y:0,stagger:.12,duration:.6,ease:'power2.out'},.1).to(cue,{opacity:0,duration:.2},0).timeScale(2)
  type Ending='idle'|'waiting'|'reading'|'done'
  let ending:Ending='idle',releaseScroll=()=>{}
  let readingTimer:ReturnType<typeof engine.gsap.delayedCall>|undefined,waitingTimer:ReturnType<typeof engine.gsap.delayedCall>|undefined
@@ -24,10 +24,10 @@ onMounted(()=>{
  const finishReading=()=>{phase('done');readingTimer?.kill();readingTimer=undefined;waitingTimer?.kill();waitingTimer=undefined;releaseScroll();tl.pause();if(finalVisible)tl.progress(1)}
  const navigate=(event:MouseEvent)=>{if((ending==='waiting'||ending==='reading')&&(event.target as HTMLElement).closest('a[href]'))finishReading()}
  document.addEventListener('click',navigate,true)
- const visibility=()=>{if(document.hidden){if(ending==='reading')tl.pause();readingTimer?.pause();waitingTimer?.pause();endingTimer?.pause()}else{if(ending==='reading'&&!readingTimer)tl.resume();readingTimer?.resume();waitingTimer?.resume();endingTimer?.resume()}}
+ const visibility=()=>{if(document.hidden){hiddenAt=performance.now();if(ending==='reading')tl.pause();readingTimer?.pause();waitingTimer?.pause();endingTimer?.pause()}else{if(hiddenAt&&releaseAt)releaseAt+=performance.now()-hiddenAt;hiddenAt=0;if(ending==='reading'&&!readingTimer)tl.resume();readingTimer?.resume();waitingTimer?.resume();endingTimer?.resume()}}
  document.addEventListener('visibilitychange',visibility)
  const clearReading=()=>{releaseScroll();readingTimer?.kill();waitingTimer?.kill();document.removeEventListener('click',navigate,true);document.removeEventListener('visibilitychange',visibility);delete el.dataset.endingPhase}
- tl.eventCallback('onComplete',()=>{if(ending==='reading')readingTimer=engine.gsap.delayedCall(2.5,finishReading)})
+ tl.eventCallback('onComplete',()=>{if(ending==='reading')readingTimer=engine.gsap.delayedCall(Math.max(0,(releaseAt-performance.now())/1000),finishReading)})
  let navigation=false
  const screens=mobile?Math.max(4,Math.min(6,Math.ceil(player.count/40)))+1:3
  const videoEnd=.8,copyStart=.86
