@@ -24,6 +24,7 @@ try{
   const forward=await page.evaluate(()=>({frames:window.__frames,times:window.__times}));
   assert.deepEqual(forward.frames,Array.from({length:150},(_,i)=>i));
   assert(forward.times.at(-1)-forward.times[0]>=4500,'Playback compressed into a burst');
+  await page.waitForFunction(()=>document.querySelector('.hero').dataset.endingPhase==='done',{},{timeout:12000});
   await page.evaluate(()=>{window.__frames=[149];window.__times=[performance.now()]});
   await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
   await page.waitForFunction(()=>document.querySelector('.hero').frameStats().drawn===0,{},{timeout:12000});

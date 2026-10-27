@@ -1,0 +1,40 @@
+[
+  {
+    "width": 360,
+    "lenis": "on",
+    "fullTextReadMs": 2566.2000000029802,
+    "momentumBlocked": true,
+    "newGestureReleased": true,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "lenis": "on",
+    "fullTextReadMs": 2550.2000000029802,
+    "momentumBlocked": true,
+    "newGestureReleased": true,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "lenis": "on",
+    "fullTextReadMs": 2550.0999999940395,
+    "momentumBlocked": true,
+    "newGestureReleased": true,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "lenis": "off",
+    "fullTextReadMs": 2549.7999999970198,
+    "momentumBlocked": true,
+    "newGestureReleased": true,
+    "errors": []
+  },
+  {
+    "ctaBypassesPause": true
+  },
+  {
+    "motionToggleClearsPause": true
+  }
+]

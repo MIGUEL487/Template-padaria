@@ -17,6 +17,17 @@ onMounted(()=>{
  let endingTimer:ReturnType<typeof engine.gsap.delayedCall>|undefined
  try{const player=await framePlayer(el,canvas.value,poster.value,color=>{const ink=[42,24,16];const out='#'+ink.map((base,c)=>Math.round(base*.96+parseInt(color.slice(1+c*2,3+c*2),16)*.04).toString(16).padStart(2,'0')).join('');emit('exit',out)},index=>{drawn=index;if(index===(mobile?frames.mobile.count:frames.pc.count)-1){if(!finalVisible&&!endingTimer)endingTimer=engine.gsap.delayedCall(.35,()=>{finalVisible=true;endingTimer=undefined;renderCopy()})}else{endingTimer?.kill();endingTimer=undefined;finalVisible=false}renderCopy()});if(gen!==generation){player.dispose();return}
  const tl=engine.gsap.timeline({paused:true}).to(shade,{opacity:1,duration:.7},0).to(copy.children,{opacity:1,y:0,stagger:.12,duration:.6,ease:'power2.out'},.1).to(cue,{opacity:0,duration:.2},0)
+ type Ending='idle'|'waiting'|'reading'|'done'
+ let ending:Ending='idle',releaseScroll=()=>{}
+ let readingTimer:ReturnType<typeof engine.gsap.delayedCall>|undefined,waitingTimer:ReturnType<typeof engine.gsap.delayedCall>|undefined
+ const phase=(value:Ending)=>{ending=value;el.dataset.endingPhase=value};phase('idle')
+ const finishReading=()=>{phase('done');readingTimer?.kill();readingTimer=undefined;waitingTimer?.kill();waitingTimer=undefined;releaseScroll();tl.pause();if(finalVisible)tl.progress(1)}
+ const navigate=(event:MouseEvent)=>{if((ending==='waiting'||ending==='reading')&&(event.target as HTMLElement).closest('a[href]'))finishReading()}
+ document.addEventListener('click',navigate,true)
+ const visibility=()=>{if(document.hidden){if(ending==='reading')tl.pause();readingTimer?.pause();waitingTimer?.pause();endingTimer?.pause()}else{if(ending==='reading'&&!readingTimer)tl.resume();readingTimer?.resume();waitingTimer?.resume();endingTimer?.resume()}}
+ document.addEventListener('visibilitychange',visibility)
+ const clearReading=()=>{releaseScroll();readingTimer?.kill();waitingTimer?.kill();document.removeEventListener('click',navigate,true);document.removeEventListener('visibilitychange',visibility);delete el.dataset.endingPhase}
+ tl.eventCallback('onComplete',()=>{if(ending==='reading')readingTimer=engine.gsap.delayedCall(2.5,finishReading)})
  const playhead={progress:0}
  const follow=engine.gsap.quickTo(playhead,'progress',{duration:.18,ease:'power2.out',onUpdate:()=>player.set(playhead.progress)})
  let navigation=false
@@ -24,8 +35,26 @@ onMounted(()=>{
  const videoEnd=.8,copyStart=.86
  el.dataset.videoEnd=String(videoEnd)
  // Copy waits for actual playback to finish, including a fast-scroll backlog.
- renderCopy=()=>{const completed=drawn===player.count-1&&finalVisible;tl.progress(!completed?0:Math.max(0,Math.min(1,(scrollProgress-copyStart)/(1-copyStart))));const next=scrollProgress>.96&&completed;if(next!==navigation){navigation=next;emit('nav',next)}}
- const sync=(self:{progress:number})=>{scrollProgress=self.progress;const progress=Math.min(1,self.progress/videoEnd);if(mobile)player.set(progress);else follow(progress);renderCopy()}
+ renderCopy=()=>{
+  const completed=drawn===player.count-1&&finalVisible
+  if(ending==='waiting'&&completed){phase('reading');waitingTimer?.kill();waitingTimer=undefined;tl.play(0);navigation=true;emit('nav',true);return}
+  if(ending==='waiting'||ending==='reading')return
+  tl.progress(!completed?0:ending==='done'?1:Math.max(0,Math.min(1,(scrollProgress-copyStart)/(1-copyStart))))
+  const next=scrollProgress>=videoEnd&&completed;if(next!==navigation){navigation=next;emit('nav',next)}
+ }
+ const sync=(self:{progress:number})=>{
+  scrollProgress=self.progress
+  if(ending==='done'&&self.progress<.1)phase('idle')
+  if(ending==='idle'&&self.progress>=videoEnd&&!['#essencia','#cardapio','#historia','#experiencia','#visita'].includes(location.hash)){
+   phase('waiting');tl.pause(0)
+   const distance=Number(el.dataset.pinDistance)||el.clientHeight*screens
+   const top=window.scrollY+(track.value?.getBoundingClientRect().top||0)+distance*.82
+   releaseScroll=engine.lockAt(top)
+   // A media failure must not trap the page indefinitely.
+   waitingTimer=engine.gsap.delayedCall(15,finishReading)
+  }
+  const progress=Math.min(1,self.progress/videoEnd);if(mobile)player.set(progress);else follow(progress);renderCopy()
+ }
  el.dataset.count=String(player.count)
  ;(el as HTMLElement&{frameStats?:()=>unknown}).frameStats=()=>({...player.stats(),vueUpdates:updates})
  if(mobile&&track.value){
@@ -41,7 +70,7 @@ onMounted(()=>{
   engine.ScrollTrigger.refresh()
   if(resume!==null)engine.jumpTo(window.scrollY+runway.getBoundingClientRect().top+resume*distance)
   update();pinnedProgress=()=>scrollProgress>0&&scrollProgress<1?scrollProgress:null
-  cleanup=()=>{pinnedProgress=()=>null;window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);window.visualViewport?.removeEventListener('resize',schedule);if(frame!==undefined)cancelAnimationFrame(frame);endingTimer?.kill();follow.tween.kill();tl.kill();player.dispose();runway.style.removeProperty('height');el.classList.remove('hero-native');canvas.value&&(canvas.value.style.opacity='0')}
+  cleanup=()=>{pinnedProgress=()=>null;clearReading();window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);window.visualViewport?.removeEventListener('resize',schedule);if(frame!==undefined)cancelAnimationFrame(frame);endingTimer?.kill();follow.tween.kill();tl.kill();player.dispose();runway.style.removeProperty('height');el.classList.remove('hero-native');canvas.value&&(canvas.value.style.opacity='0')}
   return
  }
  el.dataset.scrollMode='gsap-pin'
@@ -49,7 +78,7 @@ onMounted(()=>{
  engine.ScrollTrigger.sort();engine.ScrollTrigger.refresh()
  if(resume!==null){engine.jumpTo(trigger.start+resume*(trigger.end-trigger.start));sync({progress:resume})}
  pinnedProgress=()=>trigger.isActive?trigger.progress:null
- cleanup=()=>{pinnedProgress=()=>null;endingTimer?.kill();trigger.kill();follow.tween.kill();tl.kill();player.dispose();canvas.value&&(canvas.value.style.opacity='0')}
+ cleanup=()=>{pinnedProgress=()=>null;clearReading();endingTimer?.kill();trigger.kill();follow.tween.kill();tl.kill();player.dispose();canvas.value&&(canvas.value.style.opacity='0')}
  }catch{el.classList.add('native-motion');emit('nav',true)}}
  const stop=watch(enabled,()=>void setup());void setup();const mq=matchMedia('(max-width:768px), (orientation:portrait)');const rotate=()=>void setup(true);mq.addEventListener('change',rotate)
  onBeforeUnmount(()=>{generation++;cleanup();stop();mq.removeEventListener('change',rotate)})

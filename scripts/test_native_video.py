@@ -27,7 +27,7 @@ with sync_playwright() as p:
             assert page.locator('.hero').evaluate('el=>el.frameStats().drawn')==paused
             page.evaluate('y=>scrollTo({top:y,behavior:"instant"})',distance*.98)
             page.wait_for_function("()=>document.querySelector('.hero').frameStats().drawn===149",timeout=12000)
-            page.wait_for_timeout(400)
+            page.wait_for_function("()=>document.querySelector('.hero').dataset.endingPhase==='done'",timeout=12000)
             assert page.locator('.navbar').evaluate('el=>el.classList.contains("nav-visible")')
             quality=page.locator('.hero').evaluate('el=>el.frameStats()')
             assert quality['droppedFrames']==0,quality

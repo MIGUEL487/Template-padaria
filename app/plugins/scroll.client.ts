@@ -12,9 +12,20 @@ export default defineNuxtPlugin(nuxt=>{
  watch(enabled,configure,{flush:'post'});nuxt.hook('app:mounted',()=>{enabled.value=initialPreference;configure()})
  const visibility=()=>document.documentElement.classList.toggle('page-hidden',document.hidden);document.addEventListener('visibilitychange',visibility)
  const preference=()=>{try{if(localStorage.getItem('refugio-motion')===null&&forced===null)enabled.value=!query.matches}catch{enabled.value=!query.matches}};query.addEventListener('change',preference)
- const scrollTo=(target:string)=>{const el=document.querySelector(target);if(!el)return;if(lenis)lenis.scrollTo(el as HTMLElement,{offset:-80});else el.scrollIntoView({behavior:enabled.value?'smooth':'instant'})}
+ let releaseScroll=()=>{}
+ const scrollTo=(target:string)=>{releaseScroll();const el=document.querySelector(target);if(!el)return;if(lenis)lenis.scrollTo(el as HTMLElement,{offset:-80});else el.scrollIntoView({behavior:enabled.value?'smooth':'instant'})}
  const jumpTo=(top:number)=>{if(lenis)lenis.scrollTo(top,{immediate:true,force:true});else window.scrollTo({top,behavior:'instant'});ScrollTrigger.update()}
+ const lockAt=(top:number)=>{
+  releaseScroll();const pausedLenis=lenis;pausedLenis?.stop()
+  const prevent=(event:Event)=>event.preventDefault()
+  const key=(event:KeyboardEvent)=>{if(['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(event.key)&&!(event.target as HTMLElement).closest('a,button,input,select,textarea,[contenteditable]'))event.preventDefault()}
+  const clamp=()=>{if(Math.abs(window.scrollY-top)>1)jumpTo(top)}
+  window.addEventListener('wheel',prevent,{passive:false,capture:true});window.addEventListener('touchmove',prevent,{passive:false,capture:true});window.addEventListener('keydown',key,true);window.addEventListener('scroll',clamp,{passive:true})
+  let active=true
+  const release=()=>{if(!active)return;active=false;window.removeEventListener('wheel',prevent,true);window.removeEventListener('touchmove',prevent,true);window.removeEventListener('keydown',key,true);window.removeEventListener('scroll',clamp);if(lenis===pausedLenis)pausedLenis?.start();if(releaseScroll===release)releaseScroll=()=>{}}
+  releaseScroll=release;jumpTo(top);return release
+ }
  const click=(event:MouseEvent)=>{const a=(event.target as HTMLElement).closest('a[href^="#"]');if(a){const href=a.getAttribute('href');if(href&&href.length>1&&document.querySelector(href)){event.preventDefault();scrollTo(href);history.replaceState(null,'',href)}}};document.addEventListener('click',click)
  nuxt.hook('app:beforeMount',()=>{})
- return {provide:{scrollEngine:{gsap,ScrollTrigger,scrollTo,jumpTo}}}
+ return {provide:{scrollEngine:{gsap,ScrollTrigger,scrollTo,jumpTo,lockAt}}}
 })
