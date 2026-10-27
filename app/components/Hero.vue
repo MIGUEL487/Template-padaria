@@ -15,17 +15,16 @@ onMounted(()=>{
  el.classList.toggle('hero-native',mobile)
  let drawn=-1,scrollProgress=0,finalVisible=false,renderCopy=()=>{}
  let endingTimer:ReturnType<typeof engine.gsap.delayedCall>|undefined
- try{const player=await framePlayer(el,canvas.value,poster.value,color=>{const ink=[42,24,16];const out='#'+ink.map((base,c)=>Math.round(base*.96+parseInt(color.slice(1+c*2,3+c*2),16)*.04).toString(16).padStart(2,'0')).join('');emit('exit',out)},index=>{drawn=index;if(mobile){if(index===frames.mobile.count-1){if(!finalVisible&&!endingTimer)endingTimer=engine.gsap.delayedCall(.35,()=>{finalVisible=true;endingTimer=undefined;renderCopy()})}else{endingTimer?.kill();endingTimer=undefined;finalVisible=false}}renderCopy()});if(gen!==generation){player.dispose();return}
+ try{const player=await framePlayer(el,canvas.value,poster.value,color=>{const ink=[42,24,16];const out='#'+ink.map((base,c)=>Math.round(base*.96+parseInt(color.slice(1+c*2,3+c*2),16)*.04).toString(16).padStart(2,'0')).join('');emit('exit',out)},index=>{drawn=index;if(index===(mobile?frames.mobile.count:frames.pc.count)-1){if(!finalVisible&&!endingTimer)endingTimer=engine.gsap.delayedCall(.35,()=>{finalVisible=true;endingTimer=undefined;renderCopy()})}else{endingTimer?.kill();endingTimer=undefined;finalVisible=false}renderCopy()});if(gen!==generation){player.dispose();return}
  const tl=engine.gsap.timeline({paused:true}).to(shade,{opacity:1,duration:.7},0).to(copy.children,{opacity:1,y:0,stagger:.12,duration:.6,ease:'power2.out'},.1).to(cue,{opacity:0,duration:.2},0)
  const playhead={progress:0}
  const follow=engine.gsap.quickTo(playhead,'progress',{duration:.18,ease:'power2.out',onUpdate:()=>player.set(playhead.progress)})
  let navigation=false
- const screens=Math.max(4,Math.min(6,Math.ceil(player.count/40)))+(mobile?1:0)
- const videoEnd=mobile?.8:1,copyStart=mobile?.86:.72
+ const screens=Math.max(4,Math.min(6,Math.ceil(player.count/40)))+1
+ const videoEnd=.8,copyStart=.86
  el.dataset.videoEnd=String(videoEnd)
- // On touch screens reserve a separate ending, rather than hiding the last 28%
- // under copy. A requested last frame is insufficient: wait until it is painted.
- renderCopy=()=>{const completed=drawn===player.count-1&&finalVisible;tl.progress(mobile&&!completed?0:Math.max(0,Math.min(1,(scrollProgress-copyStart)/(1-copyStart))));const next=scrollProgress>.96&&(!mobile||completed);if(next!==navigation){navigation=next;emit('nav',next)}}
+ // Copy waits for actual playback to finish, including a fast-scroll backlog.
+ renderCopy=()=>{const completed=drawn===player.count-1&&finalVisible;tl.progress(!completed?0:Math.max(0,Math.min(1,(scrollProgress-copyStart)/(1-copyStart))));const next=scrollProgress>.96&&completed;if(next!==navigation){navigation=next;emit('nav',next)}}
  const sync=(self:{progress:number})=>{scrollProgress=self.progress;const progress=Math.min(1,self.progress/videoEnd);if(mobile)player.set(progress);else follow(progress);renderCopy()}
  el.dataset.count=String(player.count)
  ;(el as HTMLElement&{frameStats?:()=>unknown}).frameStats=()=>({...player.stats(),vueUpdates:updates})

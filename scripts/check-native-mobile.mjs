@@ -30,7 +30,7 @@ try{
    assert.equal(await page.locator('.hero').evaluate(el=>Number(el.dataset.pinDistance)),distance,'Toolbar height changed sequence distance');
   }
  }
- await page.waitForFunction(()=>document.querySelector('.hero').frameStats().drawn===149,{},{timeout:15000});
+ await page.waitForFunction(()=>document.querySelector('.hero').frameStats().drawn===149,{},{timeout:60000});
  const gaps=await page.evaluate(()=>{window.__probing=false;return window.__gaps});assert.deepEqual(gaps,[]);assert.deepEqual(errors,[]);
  assert(samples.at(-1).target>samples[0].target,'Frames froze during touch gestures');
  assert(new Set(samples.slice(0,4).map(s=>s.drawn)).size>=3,'Incoming frames were discarded during the first gestures');

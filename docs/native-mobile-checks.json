@@ -6,10 +6,12 @@
   "mode": "native-sticky",
   "samples": [
     {
-      "decoded": 2,
+      "decoded": 5,
       "compressed": 8,
       "target": 18,
       "drawn": 7,
+      "painted": 8,
+      "backlog": 11,
       "width": 360,
       "height": 640,
       "sourceWidth": 720,
@@ -17,10 +19,12 @@
       "vueUpdates": 0
     },
     {
-      "decoded": 2,
+      "decoded": 5,
       "compressed": 12,
       "target": 36,
-      "drawn": 19,
+      "drawn": 11,
+      "painted": 12,
+      "backlog": 25,
       "width": 360,
       "height": 640,
       "sourceWidth": 720,
@@ -28,10 +32,12 @@
       "vueUpdates": 0
     },
     {
-      "decoded": 2,
+      "decoded": 5,
       "compressed": 16,
       "target": 53,
-      "drawn": 37,
+      "drawn": 15,
+      "painted": 16,
+      "backlog": 38,
       "width": 360,
       "height": 640,
       "sourceWidth": 720,
@@ -39,10 +45,12 @@
       "vueUpdates": 0
     },
     {
-      "decoded": 2,
-      "compressed": 21,
+      "decoded": 5,
+      "compressed": 20,
       "target": 71,
-      "drawn": 55,
+      "drawn": 19,
+      "painted": 20,
+      "backlog": 52,
       "width": 360,
       "height": 640,
       "sourceWidth": 720,
@@ -50,10 +58,12 @@
       "vueUpdates": 0
     },
     {
-      "decoded": 2,
-      "compressed": 29,
+      "decoded": 5,
+      "compressed": 26,
       "target": 89,
-      "drawn": 80,
+      "drawn": 24,
+      "painted": 25,
+      "backlog": 65,
       "width": 360,
       "height": 680,
       "sourceWidth": 720,
@@ -61,10 +71,12 @@
       "vueUpdates": 0
     },
     {
-      "decoded": 2,
-      "compressed": 34,
+      "decoded": 5,
+      "compressed": 30,
       "target": 107,
-      "drawn": 91,
+      "drawn": 29,
+      "painted": 30,
+      "backlog": 78,
       "width": 360,
       "height": 680,
       "sourceWidth": 720,
@@ -72,10 +84,12 @@
       "vueUpdates": 0
     },
     {
-      "decoded": 2,
-      "compressed": 38,
+      "decoded": 5,
+      "compressed": 37,
       "target": 124,
-      "drawn": 107,
+      "drawn": 36,
+      "painted": 37,
+      "backlog": 88,
       "width": 360,
       "height": 680,
       "sourceWidth": 720,
@@ -83,10 +97,12 @@
       "vueUpdates": 0
     },
     {
-      "decoded": 2,
+      "decoded": 5,
       "compressed": 42,
       "target": 142,
-      "drawn": 124,
+      "drawn": 40,
+      "painted": 41,
+      "backlog": 102,
       "width": 360,
       "height": 680,
       "sourceWidth": 720,
@@ -94,10 +110,12 @@
       "vueUpdates": 0
     },
     {
-      "decoded": 2,
-      "compressed": 47,
+      "decoded": 5,
+      "compressed": 46,
       "target": 149,
-      "drawn": 143,
+      "drawn": 45,
+      "painted": 46,
+      "backlog": 104,
       "width": 360,
       "height": 680,
       "sourceWidth": 720,
@@ -106,10 +124,12 @@
     }
   ],
   "final": {
-    "decoded": 3,
-    "compressed": 50,
+    "decoded": 5,
+    "compressed": 150,
     "target": 149,
     "drawn": 149,
+    "painted": 150,
+    "backlog": 0,
     "width": 360,
     "height": 680,
     "sourceWidth": 720,

@@ -1,5 +1,7 @@
 # Scroll nativo do hero móvel
 
+Atualização posterior: a política de recuperação por quadro mais próximo descrita abaixo foi substituída por reprodução adjacente, sem saltar intermediários. Consulte `sequential-playback.md`; a fixação nativa permanece.
+
 Relato do usuário: no Chrome de um Moto Z3 Play, durante o gesto aparecia uma região branca, a imagem voltava depois e o scroll podia deixar de avançar a sequência. As correções anteriores de fila/encerramento passaram em emulação, mas não resolveram o aparelho. Não foi possível reproduzir ou confirmar a causa no dispositivo físico.
 
 A implementação móvel agora usa um contêiner alto e `position:sticky` do navegador. O hero móvel não recebe `pin:true`, transform de fixação ou pin-spacer do ScrollTrigger. O avanço usa o deslocamento real do contêiner no documento, com listener passivo e coalescência por requestAnimationFrame, sem tween intermediário. O desktop mantém o pin e a suavização anteriores; ScrollTrigger ainda anima as outras seções.
