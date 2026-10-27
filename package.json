@@ -9,7 +9,8 @@
     "typecheck": "nuxt typecheck",
     "prepare:frames": "node scripts/import-assets.mjs",
     "prepare:frames:pc": "node scripts/replace-pc-frames.mjs",
-    "prepare:video": "node scripts/encode-hero-video.mjs"
+    "prepare:video": "node scripts/encode-hero-video.mjs",
+    "prepare:video:pc": "node scripts/encode-hero-video.mjs --desktop-gsap"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",

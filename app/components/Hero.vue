@@ -28,10 +28,8 @@ onMounted(()=>{
  document.addEventListener('visibilitychange',visibility)
  const clearReading=()=>{releaseScroll();readingTimer?.kill();waitingTimer?.kill();document.removeEventListener('click',navigate,true);document.removeEventListener('visibilitychange',visibility);delete el.dataset.endingPhase}
  tl.eventCallback('onComplete',()=>{if(ending==='reading')readingTimer=engine.gsap.delayedCall(2.5,finishReading)})
- const playhead={progress:0}
- const follow=engine.gsap.quickTo(playhead,'progress',{duration:.18,ease:'power2.out',onUpdate:()=>player.set(playhead.progress)})
  let navigation=false
- const screens=Math.max(4,Math.min(6,Math.ceil(player.count/40)))+1
+ const screens=mobile?Math.max(4,Math.min(6,Math.ceil(player.count/40)))+1:3
  const videoEnd=.8,copyStart=.86
  el.dataset.videoEnd=String(videoEnd)
  // Copy waits for actual playback to finish, including a fast-scroll backlog.
@@ -53,7 +51,7 @@ onMounted(()=>{
    // A media failure must not trap the page indefinitely.
    waitingTimer=engine.gsap.delayedCall(15,finishReading)
   }
-  const progress=Math.min(1,self.progress/videoEnd);if(mobile)player.set(progress);else follow(progress);renderCopy()
+  player.set(Math.min(1,self.progress/videoEnd));renderCopy()
  }
  el.dataset.count=String(player.count)
  ;(el as HTMLElement&{frameStats?:()=>unknown}).frameStats=()=>({...player.stats(),vueUpdates:updates})
@@ -70,7 +68,7 @@ onMounted(()=>{
   engine.ScrollTrigger.refresh()
   if(resume!==null)engine.jumpTo(window.scrollY+runway.getBoundingClientRect().top+resume*distance)
   update();pinnedProgress=()=>scrollProgress>0&&scrollProgress<1?scrollProgress:null
-  cleanup=()=>{pinnedProgress=()=>null;clearReading();window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);window.visualViewport?.removeEventListener('resize',schedule);if(frame!==undefined)cancelAnimationFrame(frame);endingTimer?.kill();follow.tween.kill();tl.kill();player.dispose();runway.style.removeProperty('height');el.classList.remove('hero-native');canvas.value&&(canvas.value.style.opacity='0')}
+  cleanup=()=>{pinnedProgress=()=>null;clearReading();window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);window.visualViewport?.removeEventListener('resize',schedule);if(frame!==undefined)cancelAnimationFrame(frame);endingTimer?.kill();tl.kill();player.dispose();runway.style.removeProperty('height');el.classList.remove('hero-native');canvas.value&&(canvas.value.style.opacity='0')}
   return
  }
  el.dataset.scrollMode='gsap-pin'
@@ -78,7 +76,7 @@ onMounted(()=>{
  engine.ScrollTrigger.sort();engine.ScrollTrigger.refresh()
  if(resume!==null){engine.jumpTo(trigger.start+resume*(trigger.end-trigger.start));sync({progress:resume})}
  pinnedProgress=()=>trigger.isActive?trigger.progress:null
- cleanup=()=>{pinnedProgress=()=>null;clearReading();endingTimer?.kill();trigger.kill();follow.tween.kill();tl.kill();player.dispose();canvas.value&&(canvas.value.style.opacity='0')}
+ cleanup=()=>{pinnedProgress=()=>null;clearReading();endingTimer?.kill();trigger.kill();tl.kill();player.dispose();canvas.value&&(canvas.value.style.opacity='0')}
  }catch{el.classList.add('native-motion');emit('nav',true)}}
  const stop=watch(enabled,()=>void setup());void setup();const mq=matchMedia('(max-width:768px), (orientation:portrait)');const rotate=()=>void setup(true);mq.addEventListener('change',rotate)
  onBeforeUnmount(()=>{generation++;cleanup();stop();mq.removeEventListener('change',rotate)})

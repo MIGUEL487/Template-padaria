@@ -4,6 +4,8 @@ Site de página única em Nuxt 4, Vue 3 e TypeScript, com Tailwind v4, GSAP, Len
 
 A [revisão de fluidez](docs/native-video-review.md) documenta os testes antes/depois. Os MP4s de ida e volta são versionados em `public/video/`; para recriá-los a partir dos frames originais, use `npm run prepare:video` com FFmpeg instalado. Não é necessário converter vídeos durante o deploy.
 
+O [player de PC com GSAP](docs/desktop-gsap.md) usa um único decodificador e os arquivos `pc-gsap*.mp4`. Recrie esses arquivos com `npm run prepare:video:pc`; o comando geral acima continua atendendo os vídeos móveis e os arquivos anteriores.
+
 ```sh
 npm ci --ignore-scripts
 npm run typecheck

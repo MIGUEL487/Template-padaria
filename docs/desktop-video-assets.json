@@ -1,0 +1,16 @@
+{
+  "pc-gsap.mp4": {
+    "width": 1920,
+    "height": 1080,
+    "r_frame_rate": "30/1",
+    "nb_frames": "150",
+    "bytes": 2240824
+  },
+  "pc-gsap-reverse.mp4": {
+    "width": 1920,
+    "height": 1080,
+    "r_frame_rate": "30/1",
+    "nb_frames": "150",
+    "bytes": 2164991
+  }
+}

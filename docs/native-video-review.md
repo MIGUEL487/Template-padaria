@@ -1,5 +1,7 @@
 # Revisão de fluidez com Playwright
 
+Atualização posterior: o PC passou a um controlador separado com GSAP e um único vídeo. Consulte `desktop-gsap.md`. O player móvel desta revisão foi preservado.
+
 A reprodução sequencial em canvas respeitava os índices, mas isso não bastava para uma cadência fluida: cada JPEG/WebP precisava chegar e ser decodificado antes de avançar. O ensaio com CPU 4× mais lenta, 400.000 bytes/s de download e 120 ms de latência reproduziu 26 intervalos acima de 100 ms, com maior intervalo de 516,5 ms. Após dez segundos, só havia chegado ao quadro 76 de 149. O teste anterior de “todos os índices em ordem” não detectava essa limitação de cadência.
 
 ## Correção

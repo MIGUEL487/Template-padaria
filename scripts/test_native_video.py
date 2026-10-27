@@ -15,7 +15,7 @@ with sync_playwright() as p:
             page.on('request', lambda r: requests.append(r.url))
             page.goto(base+'/?motion=full&lenis=off',wait_until='networkidle')
             page.wait_for_function("()=>document.querySelector('.hero').frameStats().drawn===0")
-            assert page.locator('.hero').evaluate('el=>el.frameStats().renderer')=='native-video'
+            assert page.locator('.hero').evaluate('el=>el.frameStats().renderer')==('native-video' if width<768 else 'gsap-desktop')
             assert not any('/frames/' in u and ('frame_' in u or 'ezgif-frame-' in u) for u in requests), 'Default renderer fetched individual frames'
             distance=page.locator('.hero').evaluate('el=>Number(el.dataset.pinDistance)')
             page.evaluate("""()=>{window.__seen=[];window.__obs=new MutationObserver(()=>{const i=Number(document.querySelector('.hero canvas').dataset.frame);if(window.__seen.at(-1)!==i)window.__seen.push(i)});window.__obs.observe(document.querySelector('.hero canvas'),{attributes:true,attributeFilter:['data-frame']})}""")

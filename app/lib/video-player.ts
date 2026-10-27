@@ -1,11 +1,13 @@
 import manifest from '../../public/frames/manifest.json'
 import {framePlayer} from './frame-player'
+import {desktopPlayer} from './desktop-player'
 
 // Native H.264 decoding replaces per-image JS decoding on the normal path.
 // The original sequential canvas player remains available if video is unsupported.
 export async function heroPlayer(root:HTMLElement,canvas:HTMLCanvasElement,poster:HTMLImageElement,onReady:(color:string)=>void,onDraw:(index:number)=>void){
  if(new URLSearchParams(location.search).get('renderer')==='frames')return framePlayer(root,canvas,poster,onReady,onDraw)
  const mobile=matchMedia('(max-width:768px), (orientation:portrait)').matches,key=mobile?'mobile':'pc',set=manifest[key],fps=30
+ if(!mobile)return desktopPlayer(root,canvas,poster,onReady,onDraw)
  const videos=[document.createElement('video'),document.createElement('video')]
  let disposed=false,failed=false,active=0,switching=false,playing=false,target=0,drawn=-1,painted=0,waiting=0,raf:number|undefined
  let fallback:Awaited<ReturnType<typeof framePlayer>>|undefined
