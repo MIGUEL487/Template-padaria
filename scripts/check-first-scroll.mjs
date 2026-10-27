@@ -23,13 +23,14 @@ try{
   await page.waitForFunction(()=>document.querySelector('.hero')?.frameStats?.().drawn>=0);
   // Inspect an uncached first pass; do not wait for networkidle or scroll back.
   const distance=await page.locator('.hero').evaluate(el=>Number(el.dataset.pinDistance));
+  const videoEnd=await page.locator('.hero').evaluate(el=>Number(el.dataset.videoEnd||1));
   const samples=[];
   for(const progress of [.08,.16,.24,.32,.4,.48,.56,.64,.72,.8,.9,.98]){
    await page.evaluate(y=>window.scrollTo({top:y,behavior:'instant'}),distance*progress);
    await page.waitForTimeout(250);
    await page.waitForFunction(()=>{const s=document.querySelector('.hero').frameStats();return Math.abs(s.drawn-s.target)<=1},{},{timeout:2500});
    const stats=await page.locator('.hero').evaluate(el=>el.frameStats());samples.push(stats);
-   assert(Math.abs(stats.target-Math.round(progress*149))<=1,'Playhead did not follow the requested first-pass position');
+   assert(Math.abs(stats.target-Math.round(Math.min(1,progress/videoEnd)*149))<=1,'Playhead did not follow the requested first-pass position');
    assert.equal(await page.locator('.hero canvas').evaluate(el=>getComputedStyle(el).opacity),'1');
   }
   assert.deepEqual(errors,[]);assert(failedOnce,'Retry scenario was not exercised');

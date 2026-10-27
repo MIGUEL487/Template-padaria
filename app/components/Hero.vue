@@ -11,20 +11,28 @@ onMounted(()=>{
  const setup=async(preserveProgress=false)=>{const resume=preserveProgress?pinnedProgress():null;const gen=++generation;cleanup();if(!root.value||!canvas.value||!poster.value)return;const el=root.value,copy=el.querySelector('.hero-copy')!,shade=el.querySelector('.shade')!,cue=el.querySelector('.scroll-cue')!
  engine.gsap.set([copy.children,shade],{clearProps:'all'});el.classList.toggle('native-motion',!enabled.value)
  if(!enabled.value){emit('nav',true);return}
- try{const player=await framePlayer(el,canvas.value,poster.value,engine.gsap,color=>{const ink=[42,24,16];const out='#'+ink.map((base,c)=>Math.round(base*.96+parseInt(color.slice(1+c*2,3+c*2),16)*.04).toString(16).padStart(2,'0')).join('');emit('exit',out)});if(gen!==generation){player.dispose();return}
+ const mobile=matchMedia('(max-width:768px), (orientation:portrait)').matches
+ let drawn=-1,scrollProgress=0,finalVisible=false,renderCopy=()=>{}
+ let endingTimer:ReturnType<typeof engine.gsap.delayedCall>|undefined
+ try{const player=await framePlayer(el,canvas.value,poster.value,engine.gsap,color=>{const ink=[42,24,16];const out='#'+ink.map((base,c)=>Math.round(base*.96+parseInt(color.slice(1+c*2,3+c*2),16)*.04).toString(16).padStart(2,'0')).join('');emit('exit',out)},index=>{drawn=index;if(mobile){if(index===frames.mobile.count-1){if(!finalVisible&&!endingTimer)endingTimer=engine.gsap.delayedCall(.35,()=>{finalVisible=true;endingTimer=undefined;renderCopy()})}else{endingTimer?.kill();endingTimer=undefined;finalVisible=false}}renderCopy()});if(gen!==generation){player.dispose();return}
  const tl=engine.gsap.timeline({paused:true}).to(shade,{opacity:1,duration:.7},0).to(copy.children,{opacity:1,y:0,stagger:.12,duration:.6,ease:'power2.out'},.1).to(cue,{opacity:0,duration:.2},0)
  const playhead={progress:0}
  const follow=engine.gsap.quickTo(playhead,'progress',{duration:.18,ease:'power2.out',onUpdate:()=>player.set(playhead.progress)})
  let navigation=false
- const screens=Math.max(4,Math.min(6,Math.ceil(player.count/40)))
- const sync=(self:{progress:number})=>{follow(self.progress);tl.progress(Math.max(0,Math.min(1,(self.progress-.72)/.28)));const next=self.progress>.96;if(next!==navigation){navigation=next;emit('nav',next)}}
+ const screens=Math.max(4,Math.min(6,Math.ceil(player.count/40)))+(mobile?1:0)
+ const videoEnd=mobile?.8:1,copyStart=mobile?.86:.72
+ el.dataset.videoEnd=String(videoEnd)
+ // On touch screens reserve a separate ending, rather than hiding the last 28%
+ // under copy. A requested last frame is insufficient: wait until it is painted.
+ renderCopy=()=>{const completed=drawn===player.count-1&&finalVisible;tl.progress(mobile&&!completed?0:Math.max(0,Math.min(1,(scrollProgress-copyStart)/(1-copyStart))));const next=scrollProgress>.96&&(!mobile||completed);if(next!==navigation){navigation=next;emit('nav',next)}}
+ const sync=(self:{progress:number})=>{scrollProgress=self.progress;follow(Math.min(1,self.progress/videoEnd));renderCopy()}
  const trigger=engine.ScrollTrigger.create({trigger:el,start:'top top',end:()=>`+=${el.clientHeight*screens}`,pin:true,refreshPriority:10,invalidateOnRefresh:true,onUpdate:sync,onRefresh:self=>{el.dataset.pinDistance=String(self.end-self.start);sync(self)}})
  el.dataset.count=String(player.count)
  ;(el as HTMLElement&{frameStats?:()=>unknown}).frameStats=()=>({...player.stats(),vueUpdates:updates})
  engine.ScrollTrigger.sort();engine.ScrollTrigger.refresh()
  if(resume!==null){engine.jumpTo(trigger.start+resume*(trigger.end-trigger.start));sync({progress:resume})}
  pinnedProgress=()=>trigger.isActive?trigger.progress:null
- cleanup=()=>{pinnedProgress=()=>null;trigger.kill();follow.tween.kill();tl.kill();player.dispose();canvas.value&&(canvas.value.style.opacity='0')}
+ cleanup=()=>{pinnedProgress=()=>null;endingTimer?.kill();trigger.kill();follow.tween.kill();tl.kill();player.dispose();canvas.value&&(canvas.value.style.opacity='0')}
  }catch{el.classList.add('native-motion');emit('nav',true)}}
  const stop=watch(enabled,()=>void setup());void setup();const mq=matchMedia('(max-width:768px), (orientation:portrait)');const rotate=()=>void setup(true);mq.addEventListener('change',rotate)
  onBeforeUnmount(()=>{generation++;cleanup();stop();mq.removeEventListener('change',rotate)})

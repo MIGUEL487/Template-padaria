@@ -12,10 +12,43 @@
       ],
       "firstPassSamples": [
         {
-          "decoded": 8,
-          "compressed": 12,
-          "target": 12,
-          "drawn": 12,
+          "decoded": 10,
+          "compressed": 17,
+          "target": 15,
+          "drawn": 15,
+          "width": 390,
+          "height": 844,
+          "sourceWidth": 720,
+          "sourceHeight": 1280,
+          "vueUpdates": 0
+        },
+        {
+          "decoded": 6,
+          "compressed": 28,
+          "target": 30,
+          "drawn": 30,
+          "width": 390,
+          "height": 844,
+          "sourceWidth": 720,
+          "sourceHeight": 1280,
+          "vueUpdates": 0
+        },
+        {
+          "decoded": 6,
+          "compressed": 40,
+          "target": 45,
+          "drawn": 45,
+          "width": 390,
+          "height": 844,
+          "sourceWidth": 720,
+          "sourceHeight": 1280,
+          "vueUpdates": 0
+        },
+        {
+          "decoded": 6,
+          "compressed": 53,
+          "target": 60,
+          "drawn": 60,
           "width": 390,
           "height": 844,
           "sourceWidth": 720,
@@ -24,9 +57,20 @@
         },
         {
           "decoded": 7,
-          "compressed": 23,
-          "target": 24,
-          "drawn": 24,
+          "compressed": 65,
+          "target": 75,
+          "drawn": 75,
+          "width": 390,
+          "height": 844,
+          "sourceWidth": 720,
+          "sourceHeight": 1280,
+          "vueUpdates": 0
+        },
+        {
+          "decoded": 6,
+          "compressed": 76,
+          "target": 89,
+          "drawn": 88,
           "width": 390,
           "height": 844,
           "sourceWidth": 720,
@@ -35,20 +79,9 @@
         },
         {
           "decoded": 5,
-          "compressed": 32,
-          "target": 36,
-          "drawn": 35,
-          "width": 390,
-          "height": 844,
-          "sourceWidth": 720,
-          "sourceHeight": 1280,
-          "vueUpdates": 0
-        },
-        {
-          "decoded": 6,
-          "compressed": 44,
-          "target": 48,
-          "drawn": 48,
+          "compressed": 88,
+          "target": 104,
+          "drawn": 104,
           "width": 390,
           "height": 844,
           "sourceWidth": 720,
@@ -57,9 +90,9 @@
         },
         {
           "decoded": 4,
-          "compressed": 52,
-          "target": 60,
-          "drawn": 59,
+          "compressed": 99,
+          "target": 119,
+          "drawn": 119,
           "width": 390,
           "height": 844,
           "sourceWidth": 720,
@@ -68,62 +101,7 @@
         },
         {
           "decoded": 8,
-          "compressed": 64,
-          "target": 71,
-          "drawn": 71,
-          "width": 390,
-          "height": 844,
-          "sourceWidth": 720,
-          "sourceHeight": 1280,
-          "vueUpdates": 0
-        },
-        {
-          "decoded": 4,
-          "compressed": 72,
-          "target": 83,
-          "drawn": 82,
-          "width": 390,
-          "height": 844,
-          "sourceWidth": 720,
-          "sourceHeight": 1280,
-          "vueUpdates": 0
-        },
-        {
-          "decoded": 7,
-          "compressed": 84,
-          "target": 95,
-          "drawn": 95,
-          "width": 390,
-          "height": 844,
-          "sourceWidth": 720,
-          "sourceHeight": 1280,
-          "vueUpdates": 0
-        },
-        {
-          "decoded": 7,
-          "compressed": 95,
-          "target": 107,
-          "drawn": 107,
-          "width": 390,
-          "height": 844,
-          "sourceWidth": 720,
-          "sourceHeight": 1280,
-          "vueUpdates": 0
-        },
-        {
-          "decoded": 6,
-          "compressed": 104,
-          "target": 119,
-          "drawn": 118,
-          "width": 390,
-          "height": 844,
-          "sourceWidth": 720,
-          "sourceHeight": 1280,
-          "vueUpdates": 0
-        },
-        {
-          "decoded": 7,
-          "compressed": 116,
+          "compressed": 115,
           "target": 134,
           "drawn": 134,
           "width": 390,
@@ -133,10 +111,32 @@
           "vueUpdates": 0
         },
         {
-          "decoded": 4,
-          "compressed": 124,
-          "target": 146,
-          "drawn": 145,
+          "decoded": 9,
+          "compressed": 131,
+          "target": 149,
+          "drawn": 149,
+          "width": 390,
+          "height": 844,
+          "sourceWidth": 720,
+          "sourceHeight": 1280,
+          "vueUpdates": 0
+        },
+        {
+          "decoded": 9,
+          "compressed": 139,
+          "target": 149,
+          "drawn": 149,
+          "width": 390,
+          "height": 844,
+          "sourceWidth": 720,
+          "sourceHeight": 1280,
+          "vueUpdates": 0
+        },
+        {
+          "decoded": 9,
+          "compressed": 150,
+          "target": 149,
+          "drawn": 149,
           "width": 390,
           "height": 844,
           "sourceWidth": 720,
@@ -158,8 +158,8 @@
       ],
       "firstPassSamples": [
         {
-          "decoded": 4,
-          "compressed": 15,
+          "decoded": 5,
+          "compressed": 13,
           "target": 12,
           "drawn": 12,
           "width": 1440,
@@ -180,10 +180,10 @@
           "vueUpdates": 0
         },
         {
-          "decoded": 2,
+          "decoded": 3,
           "compressed": 33,
           "target": 36,
-          "drawn": 36,
+          "drawn": 35,
           "width": 1440,
           "height": 900,
           "sourceWidth": 1920,
@@ -191,7 +191,7 @@
           "vueUpdates": 0
         },
         {
-          "decoded": 3,
+          "decoded": 4,
           "compressed": 44,
           "target": 48,
           "drawn": 47,
@@ -203,7 +203,7 @@
         },
         {
           "decoded": 4,
-          "compressed": 55,
+          "compressed": 56,
           "target": 60,
           "drawn": 60,
           "width": 1440,
@@ -225,7 +225,7 @@
         },
         {
           "decoded": 5,
-          "compressed": 75,
+          "compressed": 77,
           "target": 83,
           "drawn": 83,
           "width": 1440,
@@ -235,10 +235,10 @@
           "vueUpdates": 0
         },
         {
-          "decoded": 4,
+          "decoded": 3,
           "compressed": 85,
           "target": 95,
-          "drawn": 95,
+          "drawn": 94,
           "width": 1440,
           "height": 900,
           "sourceWidth": 1920,
@@ -257,8 +257,8 @@
           "vueUpdates": 0
         },
         {
-          "decoded": 4,
-          "compressed": 105,
+          "decoded": 7,
+          "compressed": 110,
           "target": 119,
           "drawn": 119,
           "width": 1440,
@@ -269,9 +269,9 @@
         },
         {
           "decoded": 4,
-          "compressed": 116,
+          "compressed": 123,
           "target": 134,
-          "drawn": 133,
+          "drawn": 134,
           "width": 1440,
           "height": 900,
           "sourceWidth": 1920,
@@ -279,8 +279,8 @@
           "vueUpdates": 0
         },
         {
-          "decoded": 5,
-          "compressed": 126,
+          "decoded": 3,
+          "compressed": 134,
           "target": 146,
           "drawn": 146,
           "width": 1440,
@@ -304,21 +304,10 @@
       ],
       "firstPassSamples": [
         {
-          "decoded": 11,
+          "decoded": 8,
           "compressed": 15,
-          "target": 12,
-          "drawn": 12,
-          "width": 390,
-          "height": 844,
-          "sourceWidth": 720,
-          "sourceHeight": 1280,
-          "vueUpdates": 0
-        },
-        {
-          "decoded": 7,
-          "compressed": 23,
-          "target": 24,
-          "drawn": 24,
+          "target": 15,
+          "drawn": 15,
           "width": 390,
           "height": 844,
           "sourceWidth": 720,
@@ -327,9 +316,9 @@
         },
         {
           "decoded": 5,
-          "compressed": 32,
-          "target": 36,
-          "drawn": 35,
+          "compressed": 24,
+          "target": 30,
+          "drawn": 30,
           "width": 390,
           "height": 844,
           "sourceWidth": 720,
@@ -338,9 +327,9 @@
         },
         {
           "decoded": 6,
-          "compressed": 43,
-          "target": 48,
-          "drawn": 47,
+          "compressed": 37,
+          "target": 45,
+          "drawn": 45,
           "width": 390,
           "height": 844,
           "sourceWidth": 720,
@@ -348,10 +337,10 @@
           "vueUpdates": 0
         },
         {
-          "decoded": 6,
-          "compressed": 53,
+          "decoded": 5,
+          "compressed": 48,
           "target": 60,
-          "drawn": 59,
+          "drawn": 60,
           "width": 390,
           "height": 844,
           "sourceWidth": 720,
@@ -359,10 +348,21 @@
           "vueUpdates": 0
         },
         {
-          "decoded": 7,
-          "compressed": 64,
-          "target": 71,
-          "drawn": 71,
+          "decoded": 5,
+          "compressed": 60,
+          "target": 75,
+          "drawn": 75,
+          "width": 390,
+          "height": 844,
+          "sourceWidth": 720,
+          "sourceHeight": 1280,
+          "vueUpdates": 0
+        },
+        {
+          "decoded": 5,
+          "compressed": 70,
+          "target": 89,
+          "drawn": 89,
           "width": 390,
           "height": 844,
           "sourceWidth": 720,
@@ -371,20 +371,9 @@
         },
         {
           "decoded": 6,
-          "compressed": 74,
-          "target": 83,
-          "drawn": 83,
-          "width": 390,
-          "height": 844,
-          "sourceWidth": 720,
-          "sourceHeight": 1280,
-          "vueUpdates": 0
-        },
-        {
-          "decoded": 7,
           "compressed": 85,
-          "target": 95,
-          "drawn": 95,
+          "target": 104,
+          "drawn": 104,
           "width": 390,
           "height": 844,
           "sourceWidth": 720,
@@ -392,19 +381,8 @@
           "vueUpdates": 0
         },
         {
-          "decoded": 7,
-          "compressed": 95,
-          "target": 107,
-          "drawn": 107,
-          "width": 390,
-          "height": 844,
-          "sourceWidth": 720,
-          "sourceHeight": 1280,
-          "vueUpdates": 0
-        },
-        {
-          "decoded": 7,
-          "compressed": 105,
+          "decoded": 5,
+          "compressed": 97,
           "target": 119,
           "drawn": 119,
           "width": 390,
@@ -414,8 +392,8 @@
           "vueUpdates": 0
         },
         {
-          "decoded": 4,
-          "compressed": 115,
+          "decoded": 5,
+          "compressed": 107,
           "target": 134,
           "drawn": 133,
           "width": 390,
@@ -425,10 +403,32 @@
           "vueUpdates": 0
         },
         {
-          "decoded": 6,
-          "compressed": 125,
-          "target": 146,
-          "drawn": 146,
+          "decoded": 5,
+          "compressed": 118,
+          "target": 149,
+          "drawn": 149,
+          "width": 390,
+          "height": 844,
+          "sourceWidth": 720,
+          "sourceHeight": 1280,
+          "vueUpdates": 0
+        },
+        {
+          "decoded": 9,
+          "compressed": 130,
+          "target": 149,
+          "drawn": 149,
+          "width": 390,
+          "height": 844,
+          "sourceWidth": 720,
+          "sourceHeight": 1280,
+          "vueUpdates": 0
+        },
+        {
+          "decoded": 9,
+          "compressed": 139,
+          "target": 149,
+          "drawn": 149,
           "width": 390,
           "height": 844,
           "sourceWidth": 720,

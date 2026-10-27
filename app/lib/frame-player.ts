@@ -1,7 +1,7 @@
 import type {gsap as GSAP} from 'gsap'
 type Set={width:number;height:number;count:number;bottomColor:string;poster:string;frames:string[]}
 type Manifest={pc:Set;mobile:Set}
-export async function framePlayer(root:HTMLElement,canvas:HTMLCanvasElement,poster:HTMLImageElement,gsap:typeof GSAP,onReady:(exit:string)=>void){
+export async function framePlayer(root:HTMLElement,canvas:HTMLCanvasElement,poster:HTMLImageElement,gsap:typeof GSAP,onReady:(exit:string)=>void,onDraw:(index:number)=>void=()=>{}){
  const controller=new AbortController();let disposed=false
  const manifest:Manifest=await fetch('/frames/manifest.json',{signal:controller.signal}).then(r=>{if(!r.ok)throw Error('Manifest unavailable');return r.json()})
  const mobile=matchMedia('(max-width: 768px), (orientation: portrait)').matches;const set=mobile?manifest.mobile:manifest.pc
@@ -48,7 +48,7 @@ export async function framePlayer(root:HTMLElement,canvas:HTMLCanvasElement,post
   fetchQueue=[...near,...rest].filter(i=>!compressed.has(i)&&!fetching.has(i));pump();warm()
  }
  queueCurrent()
- const tick=()=>{if(disposed||document.hidden||!visible||!dirty)return;const ready=[...bitmaps.keys()];if(!ready.length)return;const i=bitmaps.has(target)?target:ready.reduce((best,n)=>Math.abs(n-target)<Math.abs(best-target)?n:best,ready[0]!);if(i!==drawn||dimensionsDirty){const b=bitmaps.get(i)!;ctx.drawImage(b,rect[0]!,rect[1]!,rect[2]!,rect[3]!);drawn=i;canvas.style.opacity='1';canvas.dataset.frame=String(i);dimensionsDirty=false}dirty=false}
+ const tick=()=>{if(disposed||document.hidden||!visible||!dirty)return;const ready=[...bitmaps.keys()];if(!ready.length)return;const i=bitmaps.has(target)?target:ready.reduce((best,n)=>Math.abs(n-target)<Math.abs(best-target)?n:best,ready[0]!);if(i!==drawn||dimensionsDirty){const b=bitmaps.get(i)!;ctx.drawImage(b,rect[0]!,rect[1]!,rect[2]!,rect[3]!);drawn=i;canvas.style.opacity='1';canvas.dataset.frame=String(i);dimensionsDirty=false;onDraw(i)}dirty=false}
  gsap.ticker.add(tick)
  return {count:set.count,set(progress:number){const next=Math.max(0,Math.min(set.count-1,Math.round(progress*(set.count-1)/step)*step));if(next===target)return;direction=next>target?1:-1;target=next;dirty=true;trim();queueCurrent()},dispose(){disposed=true;controller.abort();ro.disconnect();io.disconnect();gsap.ticker.remove(tick);for(const b of bitmaps.values())close(b);bitmaps.clear();compressed.clear()},stats(){return{decoded:bitmaps.size,compressed:compressed.size,target,drawn,width:canvas.width,height:canvas.height,sourceWidth:set.width,sourceHeight:set.height}}}
 }

@@ -1,0 +1,14 @@
+[
+  {
+    "delayedFinalFrame": false,
+    "finalVisibleBeforeCopy": true,
+    "touchScroll": true,
+    "errors": []
+  },
+  {
+    "delayedFinalFrame": true,
+    "finalVisibleBeforeCopy": true,
+    "touchScroll": true,
+    "errors": []
+  }
+]
